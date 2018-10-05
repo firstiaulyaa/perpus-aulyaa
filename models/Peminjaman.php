@@ -42,10 +42,63 @@ class Peminjaman extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_buku' => 'Id Buku',
-            'id_anggota' => 'Id Anggota',
+            'id_buku' => 'Buku',
+            'id_anggota' => 'Anggota',
             'tanggal_pinjam' => 'Tanggal Pinjam',
             'tanggal_kembali' => 'Tanggal Kembali',
         ];
     }
+
+
+
+    // --------------------------------------------- //
+    // untuk memanggil data buku berdasarkan id_buku //
+    // --------------------------------------------- //
+
+    public function getBuku()
+        {
+            return $this->hasOne(Buku::class, ['id' => 'id_buku']);
+        }
+
+    // ---------------------------------------------- //
+
+
+
+    // --------------------------------------------------- //
+    // untuk memanggil data penulis berdasarkan id_penulis //
+    // --------------------------------------------------- //
+
+    public function getAnggota()
+        {
+            return $this->hasOne(Anggota::class, ['id' => 'id_anggota']);
+        }
+
+    // -------------------------------------------------- //
+
+
+
+    // -------------------------------------------------- //
+    // untuk memanggil list data  berdasarkan id dan nama //
+    // -------------------------------------------------- //
+
+    public static function getList()
+        {
+            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+        }
+
+    // -------------------------------------------------- //
+
+
+
+    // --------------------------------- //
+    // untuk menghitung data pada grafik //
+    // --------------------------------- //
+
+    public static function getCount()
+        {
+            return static::find()->count();
+        }
+
+    // -------------------------------------------------- //
+
 }
