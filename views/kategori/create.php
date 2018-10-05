@@ -6,16 +6,16 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Kategori */
 
-$this->title = 'Create Kategori';
-$this->params['breadcrumbs'][] = ['label' => 'Kategoris', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Tambah Kategori Buku';
+$this->params['breadcrumbs'][] = ['label' => 'Kategori', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman kategori
 ?>
 <div class="kategori-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="box box-primary">
 
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
+</div>
 </div>
