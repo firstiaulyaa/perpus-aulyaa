@@ -5,17 +5,20 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Anggota */
 
-$this->title = 'Update Anggota: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Anggotas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Ubah Data Anggota : ' . $model->nama; //menampilkan nama pada model anggota
+$this->params['breadcrumbs'][] = ['label' => 'Anggota', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nama, 'url' => ['view', 'id' => $model->nama]];
+$this->params['breadcrumbs'][] = 'Ubah';
 ?>
-<div class="anggota-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="anggota-update">
+<div class="box box-primary">
+<div class="box-body">
 
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
+</div>
+</div>
 </div>
