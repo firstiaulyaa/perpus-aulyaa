@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = 'Tambah Kategori Buku';
 $this->params['breadcrumbs'][] = ['label' => 'Kategori', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman kategori
+$this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman kategori       
 ?>
 <div class="kategori-create">
 <div class="box box-primary">
