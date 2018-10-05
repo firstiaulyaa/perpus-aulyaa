@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32bd8e0ce5d6c32209af807e7a2807f7",
+    "content-hash": "7173950def9d34fbee778ffff284ecf4",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -716,6 +716,53 @@
                 "yii2"
             ],
             "time": "2018-08-29T12:10:45+00:00"
+        },
+        {
+            "name": "mdmsoft/yii2-upload-file",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mdmsoft/yii2-upload-file.git",
+                "reference": "a3a9b5bf797fa1e338f83c952291a06422042e03"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mdmsoft/yii2-upload-file/zipball/a3a9b5bf797fa1e338f83c952291a06422042e03",
+                "reference": "a3a9b5bf797fa1e338f83c952291a06422042e03",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "mdm\\upload\\Bootstrap",
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "mdm\\upload\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Misbahul Munir",
+                    "email": "misbahuldmunir@gmail.com"
+                }
+            ],
+            "description": "Yii2 upload file tools",
+            "keywords": [
+                "file",
+                "upload",
+                "yii"
+            ],
+            "time": "2016-11-07T09:01:26+00:00"
         },
         {
             "name": "rmrevin/yii2-fontawesome",
