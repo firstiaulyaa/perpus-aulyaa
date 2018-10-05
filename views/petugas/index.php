@@ -7,16 +7,21 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\PetugasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Petugas';
+$this->title = 'Data Petugas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="petugas-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<div class="box box-primary">
+<div class="box-body">
 
     <p>
-        <?= Html::a('Create Petugas', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Data Petugas', ['create'], ['class' => 'btn btn-success']) ?>
+
+        <?= Html::a('Export ke Word', ['export-word'], ['class' => 'btn btn-info btn-flat']); ?>
+
+        <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success btn-flat']); ?>
+
+        <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
     </p>
 
     <?= GridView::widget([
@@ -34,4 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+</div>
+</div>
 </div>
