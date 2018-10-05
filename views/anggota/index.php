@@ -1,22 +1,29 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\grid\GridView; // untuk membuat tampilan grid view pada index
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AnggotaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Anggotas';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Data Anggota';
+$this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman anggota
 ?>
-<div class="anggota-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<!-- menampilkan data anggota dengan table -->
+<div class="anggota-index">
+<div class="box box-primary">
+<div class="box-body">
 
     <p>
-        <?= Html::a('Create Anggota', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Data Anggota', ['create'], ['class' => 'btn btn-success']) ?>
+
+        <?= Html::a('Export ke Word', ['export-word'], ['class' => 'btn btn-info btn-flat']); ?>
+
+        <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success btn-flat']); ?>
+
+        <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
     </p>
 
     <?= GridView::widget([
@@ -25,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'nama',
             'alamat',
             'telepon',
@@ -36,3 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 </div>
+</div>
+</div>
+<!-- akhir menampilkan data anggota dengan tabel -->
