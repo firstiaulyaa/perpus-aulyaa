@@ -48,4 +48,87 @@ class Penulis extends \yii\db\ActiveRecord
             'email' => 'Email',
         ];
     }
+
+
+
+    // ------------------------------------------------------- //
+    // untuk memanggil semua list data berdasarkan id dan nama //
+    // ------------------------------------------------------- //
+
+    public static function getList()
+        {
+            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+        }
+
+    // ------------------------------------------------------- //
+    
+
+
+    // ------------------------------------------------------- //
+    // untuk menampilkan semua data buku berdasarkan id_penerbit //
+    // ------------------------------------------------------- //
+
+    public function findAllBuku()
+        {
+            return Buku::find()
+                ->andWhere(['id_penulis' => $this->id])
+                ->all();
+        }
+
+
+    // ------------------------------------------------------- //
+    // untuk menampilkan semua jumlah data buku berdasarkan id_penulis //
+    // ------------------------------------------------------- //
+
+    public function getJumlahBuku()
+        {
+            return Buku::find()
+                ->andWhere(['id_penulis' => $this->id])
+                ->count();
+        }
+
+    // ------------------------------------------------------- //
+
+    
+
+    // --------------------------------- //
+    // untuk menghitung data pada grafik //
+    // --------------------------------- //
+
+    public static function getCount()
+        {
+            return static::find()->count();
+        }
+
+    // --------------------------------- //
+
+
+
+    // ---------------------------------------------------- //
+    // Mengambil semua data yang ada di tabel buku yang dimana id buku akan ditampilkan berdasarkan id_*** / id_*** akan mengambil data di buku yang berkaitan dengan id_*** //
+    // ---------------------------------------------------- //
+
+    public function getManyBuku()
+        {
+            return $this->hasMany(Buku::class, ['id_Penulis' => 'id']);
+        }
+
+    // ---------------------------------------------------- //
+  
+
+
+    // ------------------------------------------------------ //
+    // Menjumlah semua data buku yang berkaitan dengan id_*** //
+    // ------------------------------------------------------ //
+
+    public static function getGrafikList()
+        {
+            $data = [];
+            foreach (static::find()->all() as $penulis) {
+                $data[] = [$penulis->nama, (int) $penulis->getManyBuku()->count()];
+            }
+            return $data;
+        }
+
+    // ----------------------------------------------------- //
 }
