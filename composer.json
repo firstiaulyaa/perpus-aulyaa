@@ -25,7 +25,8 @@
         "mpdf/mpdf": "^7.1",
         "phpoffice/phpword": "^0.15.0",
         "2amigos/yii2-ckeditor-widget": "^2.1",
-        "2amigos/yii2-tinymce-widget": "~1.1"
+        "2amigos/yii2-tinymce-widget": "~1.1",
+        "kartik-v/yii2-widget-fileinput": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
