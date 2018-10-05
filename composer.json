@@ -28,7 +28,8 @@
         "2amigos/yii2-tinymce-widget": "~1.1",
         "kartik-v/yii2-widget-fileinput": "@dev",
         "2amigos/yii2-highcharts-widget": "~1.0",
-        "kartik-v/yii2-export": "@dev"
+        "kartik-v/yii2-export": "@dev",
+        "kartik-v/yii2-widget-select2": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
