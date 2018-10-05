@@ -6,25 +6,29 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Anggota */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Anggotas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->nama; // memanggil nama pada model anggota
+$this->params['breadcrumbs'][] = ['label' => 'Anggota', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman anggota
 ?>
+
 <div class="anggota-view">
+<div class="box box-primary">
+<div class="box-body"> 
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<!-- button ubah dan hapus pada suatu data -->
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Apakah Anda yakin ingin menghapusnya?',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
+<!-- akhir button ubah dan hapus pada suatu data -->
 
+<!-- untuk melihat detailView pada data yang dipilih -->
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -36,5 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'status_aktif',
         ],
     ]) ?>
-
+<!-- akhir untuk melihat detailView pada data yang dipilih -->
+</div>
+</div>
 </div>
