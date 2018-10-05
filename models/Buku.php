@@ -48,14 +48,98 @@ class Buku extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nama' => 'Nama',
+            'nama' => 'Nama Buku',
             'tahun_terbit' => 'Tahun Terbit',
-            'id_penulis' => 'Id Penulis',
-            'id_penerbit' => 'Id Penerbit',
-            'id_kategori' => 'Id Kategori',
+            'id_penulis' => 'Penulis',
+            'id_penerbit' => 'Penerbit',
+            'id_kategori' => 'Kategori',
             'sinopsis' => 'Sinopsis',
             'sampul' => 'Sampul',
             'berkas' => 'Berkas',
         ];
     }
+
+
+    // --------------------------------------------------------------- //
+    // untuk menampilkan data penulis (nama sesuai id) pada modul buku //
+    // --------------------------------------------------------------- //
+
+    public function getPenulis()
+        {
+            return $this->hasOne(Penulis::class, ['id' => 'id_penulis']);
+        }
+
+    // --------------------------------------------------------------- //
+
+
+
+    // ---------------------------------------------------------------- //
+    // untuk menampilkan data penerbit (nama sesuai id) pada modul buku //
+    // ---------------------------------------------------------------- //
+
+    public function getPenerbit()
+        {
+            return $this->hasOne(Penerbit::class, ['id' => 'id_penerbit']);
+        }
+
+    // ---------------------------------------------------------------- //
+
+
+
+    // ---------------------------------------------------------------- //
+    // untuk menampilkan data kategori (nama sesuai id) pada modul buku //
+    // ---------------------------------------------------------------- //
+
+    public function getKategori()
+        {
+            return $this->hasOne(Kategori::class, ['id' => 'id_kategori']);
+        }
+
+    // ---------------------------------------------------------------- //
+
+
+
+    // ------------------------------------------------------------- //
+    // untuk menampilkan (list) data anggota berdasarkan id dan nama //
+    // ------------------------------------------------------------- //
+
+    public static function getList()
+        {
+            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+        }
+
+    // ------------------------------------------------------------- //
+
+
+
+    // ----------------------------------------------------------------------- //
+    // untuk menghitung jumlah semua data buku (untuk ditampilkan pada grafik) //
+    // ----------------------------------------------------------------------- //
+
+     public static function getCount()
+        {
+            return static::find()->count();
+        }
+
+    // ------------------------------------------------------------------------ //
+
+
+
+    // ------------------------------------------------------------- //
+    // contoh menampilkan tulisan
+    public static function hallo()
+    {
+        return "Selamat Datang";
+    }
+
+    public static function hallolagi()
+    {
+        return "Lalalalalalalalalala";
+    }
+
+    public function halo()
+    {
+        return "Lililililili";
+    }
+    // ------------------------------------------------------------- //
 }
