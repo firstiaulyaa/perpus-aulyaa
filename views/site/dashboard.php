@@ -81,7 +81,7 @@ $this->title = 'Dashboard myLibrary'; ?>
         </div>
     </div>
 </div>
-
+ 
 <!-- Chart Bar --> 
 <div class="row">
     <!-- Grafik Bar -->
@@ -208,7 +208,7 @@ $this->title = 'Dashboard myLibrary'; ?>
 
                 <div class="box-header with-border">
                     <div class="user-block">
-                        <img class="img-circle" src="<?= Yii::getAlias('@web').'/images/a.jpg'; ?>" alt="User Image">
+                        <img class="img-circle" src="<?= Yii::getAlias('@web').'/images/a.png'; ?>" alt="User Image">
                         <span class="username"><?= Html::a($buku->nama, ['buku/view', 'id' => $buku->id]); ?></span>
                         <span class="description">Tahun <?= $buku->tahun_terbit; ?></span>
                     </div>
@@ -220,7 +220,7 @@ $this->title = 'Dashboard myLibrary'; ?>
                 </div>
 
                 <div class="box-body">
-                    <img class="img-responsive pad" src="<?= Yii::$app->request->baseUrl.'/upload/'.$buku['sampul']; ?>" alt="Photo">
+                    <img class="img-responsive pad" src="<?= Yii::$app->request->baseUrl.'/upload/sampul/'.$buku['sampul']; ?>" alt="Photo">
                     <p>Sinopsis : <?= substr($buku->sinopsis,0,120);?> ...</p>
                     <?= Html::a("Detail Buku",["buku/view","id"=>$buku->id],['class' => 'btn btn-default']) ?>
                     <?= Html::a('Pinjam Buku', ['peminjaman/create', 'id' => $buku->id], [
@@ -261,7 +261,7 @@ $this->title = 'Dashboard myLibrary'; ?>
 
                 <div class="box-header with-border">
                     <div class="user-block">
-                        <img class="img-circle" src="<?= Yii::getAlias('@web').'/images/a.jpg'; ?>" alt="User Image">
+                        <img class="img-circle" src="<?= Yii::getAlias('@web').'/images/a.png'; ?>" alt="User Image">
                         <span class="username"><?= Html::a($buku->nama, ['buku/view', 'id' => $buku->id]); ?></span>
                         <span class="description">Tahun <?= $buku->tahun_terbit; ?></span>
                     </div>
