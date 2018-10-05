@@ -9,12 +9,26 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\User;
+use app\models\RegisterForm;
+use app\models\Buku; // untuk memanggil model buku
+use Mpdf\Mpdf; //untuk memanggil ekstension pdf
 
 class SiteController extends Controller
 {
     /**
      * {@inheritdoc}
      */
+    public function verifyCode()
+    {
+        return[
+                'captcha' => [
+                    'class' => 'yii\captcha\CaptchaAction',
+                    'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                ],
+        ];
+    }
+
     public function behaviors()
     {
         return [
@@ -61,7 +75,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (!Yii::$app->user->isGuest) 
+        {
+            return $this->redirect(['site/dashboard']);
+        } else {
+            return $this->redirect(['site/login']);
+        }
     }
 
     /**
@@ -125,4 +144,78 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+
+     // ------------------------------------------------------ //
+    // action untuk melakukan eksport Data Buku ke pdf (.pdf) //
+    // ------------------------------------------------------ //
+
+    public function actionExportPdf() 
+       {
+             $this->layout='main1';
+             $model = Buku::find()->All();
+             $mpdf=new mPDF();
+             $mpdf->WriteHTML($this->renderPartial('template',['model'=>$model]));
+             $mpdf->Output('DataBuku.pdf', 'D');
+             exit;
+       }
+
+   // ------------------------------------------------------ //
+
+
+    // Custom Sendiri untuk dashboard
+    public function actionDashboard()
+    {
+        // if (User::isAdmin() || User::isAnggota()) {
+         if (User::isAdmin()) {
+            return $this->render('dashboard');
+        } elseif (User::isAnggota()) {
+             return $this->render('dashboard');
+            
+        } elseif (User::isPetugas()) {
+             return $this->render('dashboard');
+        }
+        else
+         {
+         return $this->redirect(['site/login']);
+        }
+        //  return $this->render('dashboard');
+    }
+
+
+    // register
+        //untuk membuat register sendiri
+    public function actionRegister()
+    {
+        //agar secara otomatis membuat sendiri
+        $this->layout='main-login';
+        //$model untuk layout register
+        $model = new RegisterForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $anggota = new Anggota();
+            $anggota->nama = $model->nama;
+            $anggota->alamat = $model->alamat;
+            $anggota->telepon = $model->telepon;
+            $anggota->email = $model->email;
+            $anggota->save();
+
+            $user = new User();
+            $user->username = $model->username;
+            $user->password = $model->password;
+            $user->id_anggota = $anggota->id;
+            $user->id_petugas = 0;
+            $user->id_user_role = 2;
+            $user->status = 2;
+            $user->save();
+
+            return $this->redirect(['site/login']);
+        } 
+
+        //untuk memunculkan form dari halaman register
+        return $this->render('register', ['model'=>$model]);
+    }
+
+
 }
