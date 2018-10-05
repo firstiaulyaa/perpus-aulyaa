@@ -1,22 +1,33 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\grid\GridView; // untuk memanggil tampilan grid view
+use app\models\Kategori; // untuk memanggil model kategori
+use app\models\Penulis; // untuk memanggil model penulis
+use app\models\Penerbit; // untuk memanggil model penerbit
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\BukuSearch */
+/* @var $searchModel app\models\bukuSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Bukus';
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="buku-index">
+$this->title = 'Data Buku';
+$this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman buku
+?> 
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<!-- menampilkan data buku dengan tabel -->
+<div class="buku-index">
+<div class="box box-primary">
+<div class="box-body">
+
 
     <p>
-        <?= Html::a('Create Buku', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Data Buku', ['create'], ['class' => 'btn btn-success']) ?>
+
+        <?= Html::a('Export ke Word', ['export-word'], ['class' => 'btn btn-info btn-flat']); ?>
+
+        <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success btn-flat']); ?>
+
+        <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
     </p>
 
     <?= GridView::widget([
@@ -25,17 +36,83 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'nama',
+           'nama',
             'tahun_terbit',
-            'id_penulis',
-            'id_penerbit',
-            //'id_kategori',
+           //  [
+           //     'class' => 'yii\grid\DataColumn',
+           //     'header' => 'Nama Penulis',
+           //     'value' => 'penulis.nama',
+           //     'filter' => Penulis::getList(),
+           //     'value' => function ($data) {
+           //          return @$data->penulis->nama;
+           //      }
+           // ],
+            [
+                'attribute' => 'id_penulis',
+                'format' => 'raw',
+                'filter' => Penulis::getList(),
+                'headerOptions' => ['style' => 'text-align:center;'],
+                'contentOptions' => ['style' => 'text-align:center;'],
+                'value' => function($data)
+                {
+                  return $data->penulis->nama;
+                }
+            ],
+            [
+                'attribute' => 'id_penerbit',
+                'format' => 'raw',
+                'filter' => Penerbit::getList(),
+                'headerOptions' => ['style' => 'text-align:center;'],
+                'contentOptions' => ['style' => 'text-align:center;'],
+                'value' => function($data)
+                {
+                  return $data->penerbit->nama;
+                }
+            ],
+            [
+                'attribute' => 'id_kategori',
+                'format' => 'raw',
+                'filter' => Kategori::getList(),
+                'headerOptions' => ['style' => 'text-align:center;'],
+                'contentOptions' => ['style' => 'text-align:center;'],
+                'value' => function($data)
+                {
+                  return $data->kategori->nama;
+                }
+            ],
             //'sinopsis:ntext',
-            //'sampul',
-            //'berkas',
+
+            //sampul
+            [
+                'attribute' => 'sampul',
+                'format' => 'raw',
+                'value' => function ($model) {
+                  if ($model->sampul != '') {
+                    return Html::img('@web/upload/sampul/' . $model->sampul, ['class' => 'img-responsive', 'style' => 'height:100px ']);
+                  } else {
+                    return '<div align="center"><h1>No Image</h1></div>';
+                  }
+                },
+            ],
+
+            //berkas
+
+            [
+                'attribute' => 'berkas',
+                'format' => 'raw',
+                'value' => function ($model) {
+                  if ($model->berkas !='') {
+                    return '<a href="' . Yii::$app->request->baseUrl . '/upload/berkas/' . $model->berkas . '"><div align="center"><button class="btn btn-success glyphicon glyphicon-download-alt" type="submit"></button></div></a>';
+                  } else {
+                    return '<div align="center"><h1>No File</h1></div>';
+                  }
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
+</div>
+</div>
+<!-- akhir menampilkan data buku dengan tabel -->
