@@ -48,4 +48,18 @@ class Petugas extends \yii\db\ActiveRecord
             'email' => 'Email',
         ];
     }
+
+    
+
+    // --------------------------------- //
+    // untuk menghitung data pada grafik //
+    // --------------------------------- //
+
+    public static function getCount()
+        {
+            return static::find()->count();
+        }
+
+    // --------------------------------- //
+
 }
