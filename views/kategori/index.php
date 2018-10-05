@@ -7,16 +7,24 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\KategoriSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Kategoris';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Kategori Buku';
+$this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman kategori
 ?>
-<div class="kategori-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+<!-- menampilkan data kategori ke dalam tabel -->
+<div class="kategori-index">
+<div class="box box-primary">
+<div class="box-body">
 
     <p>
-        <?= Html::a('Create Kategori', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Kategori Buku', ['create'], ['class' => 'btn btn-success']) ?>
+
+        <?= Html::a('Export ke Word', ['export-word'], ['class' => 'btn btn-info btn-flat']); ?>
+
+        <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success btn-flat']); ?>
+
+        <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
     </p>
 
     <?= GridView::widget([
@@ -25,10 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'nama',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
+</div>
+</div>
+<!-- akhir menampilkan data kategori ke dalam tabel -->
