@@ -16,39 +16,66 @@ use Yii;
  */
 class Anggota extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
-    {
-        return 'anggota';
-    }
+        {
+            return 'anggota';
+        }
 
     /**
      * {@inheritdoc}
      */
     public function rules()
-    {
-        return [
-            [['nama'], 'required'],
-            [['status_aktif'], 'integer'],
-            [['nama', 'alamat'], 'string', 'max' => 255],
-            [['telepon', 'email'], 'string', 'max' => 50],
-        ];
-    }
+        {
+            return [
+                [['nama'], 'required'],
+                [['status_aktif'], 'integer'],
+                [['nama', 'alamat'], 'string', 'max' => 255],
+                [['telepon', 'email'], 'string', 'max' => 50],
+            ];
+        }
 
     /**
      * {@inheritdoc}
      */
     public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'nama' => 'Nama',
-            'alamat' => 'Alamat',
-            'telepon' => 'Telepon',
-            'email' => 'Email',
-            'status_aktif' => 'Status Aktif',
-        ];
-    }
+        {
+            return [
+                'id' => 'ID',
+                'nama' => 'Nama',
+                'alamat' => 'Alamat',
+                'telepon' => 'Telepon',
+                'email' => 'Email',
+                'status_aktif' => 'Status Aktif',
+            ];
+        }
+
+
+    // ------------------------------------------------------------- //
+    // untuk menampilkan (list) data anggota berdasarkan id dan nama //
+    // ------------------------------------------------------------- //
+
+    public static function getList()
+        {
+            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+        }
+
+    // ------------------------------------------------------------- //
+
+
+
+    // -------------------------------------------------------------------------- //
+    // untuk menghitung jumlah semua data anggota (untuk ditampilkan pada grafik) //
+    // -------------------------------------------------------------------------- //
+
+     public static function getCount()
+        {
+            return static::find()->count();
+        }
+
+    // -------------------------------------------------------------------------- //
+
 }
