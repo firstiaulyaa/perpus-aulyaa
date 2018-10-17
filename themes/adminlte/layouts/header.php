@@ -27,7 +27,7 @@ use yii\helpers\Html;
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= Yii::getAlias('@web').'/images/a.jpg'; ?>" class="img-circle" alt="User Image"/>
+                            <img src="<?= Yii::getAlias('@web').'/images/a.png'; ?>" class="img-circle" alt="User Image"/>
                             <p>
                                 <?= Yii::$app->user->identity->username ?>
                                 <small>Member of myLibrary</small>

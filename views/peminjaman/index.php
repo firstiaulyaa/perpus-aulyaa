@@ -64,8 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'tanggal_pinjam',
-               'format' => ['DateTime', 'php: Y / F / d-D'],
-               'label' => 'Tanggal<br>Pinjam',
+               'format' => 'date',
                'encodeLabel' =>false,
                'headerOptions' => ['style' => 'text-align:center; width: 200px'],
                'contentOptions' => ['style' => 'text-align:center'],
@@ -73,8 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                
                'attribute' =>'tanggal_kembali',
-               'format' => ['DateTime', 'php: Y / F / d-D'],
-               'label' => 'Tanggal<br>Kembali',
+               'format' => 'date',
                'encodeLabel' =>false,
                'headerOptions' => ['style' => 'text-align:center; width: 200px'],
                'contentOptions' => ['style' => 'text-align:center'],

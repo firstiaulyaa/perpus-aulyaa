@@ -2,7 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
-
+ 
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -12,6 +12,18 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+       'mail' => [
+        'useFileTransport' => false,
+        'class' => 'yii\swiftmailer\Mailer',
+        'transport' => [
+            'class' => 'Swift_SmtpTransport',
+            'host' => 'smtp.gmail.com',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
+            'username' => 'firstiaulyaa@gmail.com',
+            'password' => '@0123456789',
+            'port' => '587', // Port 25 is a very common port too
+            'encryption' => 'tls', // It is often used, check your provider or mail server specs
+            ],
+        ],
         'view' => [
             'theme' => [
                 'pathMap' => [

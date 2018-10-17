@@ -103,7 +103,7 @@ $this->title = 'Dashboard myLibrary'; ?>
                         ],
                         'series' => [
                             [
-                                'type' => 'bar',
+                                'type' => 'pie', //bar
                                 'name' => 'Buku',
                                 'data' => Kategori::getGrafikList(),
                             ],
@@ -135,7 +135,7 @@ $this->title = 'Dashboard myLibrary'; ?>
                                 ],
                                 'series' => [
                                     [
-                                        'type' => 'line',
+                                        'type' => 'column', //line
                                         'name' => 'Penulis',
                                         'data' => Penulis::getGrafikList(),
                                     ],
@@ -168,7 +168,7 @@ $this->title = 'Dashboard myLibrary'; ?>
                                     ],
                                     'series' => [
                                         [
-                                            'type' => 'pie',
+                                            'type' => 'column',
                                             'name' => 'Penerbit',
                                             'data' => Penerbit::getGrafikList(),
                                         ],
@@ -220,7 +220,8 @@ $this->title = 'Dashboard myLibrary'; ?>
                 </div>
 
                 <div class="box-body">
-                    <img class="img-responsive pad" src="<?= Yii::$app->request->baseUrl.'/upload/sampul/'.$buku['sampul']; ?>" alt="Photo">
+                    <img style="max-height: 250px; margin-right: auto; margin-left: auto; display: block;"
+                     src="<?= Yii::$app->request->baseUrl.'/upload/sampul/'.$buku['sampul']; ?>" alt="Photo">
                     <p>Sinopsis : <?= substr($buku->sinopsis,0,120);?> ...</p>
                     <?= Html::a("Detail Buku",["buku/view","id"=>$buku->id],['class' => 'btn btn-default']) ?>
                     <?= Html::a('Pinjam Buku', ['peminjaman/create', 'id' => $buku->id], [
@@ -270,20 +271,6 @@ $this->title = 'Dashboard myLibrary'; ?>
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
-                </div>
-
-                <div class="box-body">
-                    <img class="img-responsive pad" src="<?= Yii::$app->request->baseUrl.'/upload/'.$buku['sampul']; ?>" alt="Photo">
-                    <p>Sinopsis : <?= substr($buku->sinopsis,0,120);?> ...</p>
-                    <?= Html::a("<i class='fa fa-eye'> Detail Buku</i>",["buku/view","id"=>$buku->id],['class' => 'btn btn-default']) ?>
-                    <?= Html::a('<i class="fa fa-file"> Pinjam Buku</i>', ['#', 'id' => $buku->id], [
-                        'class' => 'btn btn-primary',
-                        'data' => [
-                            'confirm' => 'Apa anda yakin ingin meminjam buku ini?',
-                            'method' => 'post',
-                        ],
-                    ]) ?>
-                    <!-- <span class="pull-right text-muted">127 Peminjam - 3 Komentar</span> -->
                 </div>
 
             </div>
