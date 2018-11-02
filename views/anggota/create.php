@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Anggota', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman anggota
 ?>
 <div class="anggota-create">
-<div class="box box-primary">
+<div class="box box-default">
 <div class="box-body">
 
     <?= $this->render('_form', [

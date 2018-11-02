@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
 
 <!-- menampilkan data buku dengan tabel -->
 <div class="buku-index">
-<div class="box box-primary">
+<div class="box box-default">
 <div class="box-body">
 
 
@@ -34,25 +34,32 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+             [
+              'class' => 'yii\grid\SerialColumn',
+              'header' => 'No',
+              'headerOptions' => ['style' => 'text-align:center'],
+              'contentOptions' => ['style' => 'text-align:center']
+            ],
 
-           'nama',
-            'tahun_terbit',
-           //  [
-           //     'class' => 'yii\grid\DataColumn',
-           //     'header' => 'Nama Penulis',
-           //     'value' => 'penulis.nama',
-           //     'filter' => Penulis::getList(),
-           //     'value' => function ($data) {
-           //          return @$data->penulis->nama;
-           //      }
-           // ],
+
+            [
+              'attribute' => 'nama',
+              'headerOptions' => ['style' => 'text-align:center'],
+              'format' => 'raw',
+              'contentOptions' => ['style' =>'text-align:left;'],
+            ],
+            [
+              'attribute' => 'tahun_terbit',
+              'headerOptions' => ['style' => 'text-align:center'],
+              'format' => 'raw',
+              'contentOptions' => ['style' =>'text-align:center;'],
+            ],
             [
                 'attribute' => 'id_penulis',
                 'format' => 'raw',
                 'filter' => Penulis::getList(),
                 'headerOptions' => ['style' => 'text-align:center;'],
-                'contentOptions' => ['style' => 'text-align:center;'],
+                'contentOptions' => ['style' => 'text-align:left;'],
                 'value' => function($data)
                 {
                   return $data->penulis->nama;
@@ -63,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
                 'format' => 'raw',
                 'filter' => Penerbit::getList(),
                 'headerOptions' => ['style' => 'text-align:center;'],
-                'contentOptions' => ['style' => 'text-align:center;'],
+                'contentOptions' => ['style' => 'text-align:left;'],
                 'value' => function($data)
                 {
                   return $data->penerbit->nama;
@@ -86,6 +93,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
             [
                 'attribute' => 'sampul',
                 'format' => 'raw',
+                'headerOptions' => ['style' => 'text-align:center;'],
                 'value' => function ($model) {
                   if ($model->sampul != '') {
                     return Html::img('@web/upload/sampul/' . $model->sampul, ['class' => 'img-responsive', 'style' => 'height:100px ']);
@@ -100,6 +108,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
             [
                 'attribute' => 'berkas',
                 'format' => 'raw',
+                'headerOptions' => ['style' => 'text-align:center;'],
                 'value' => function ($model) {
                   if ($model->berkas !='') {
                     return '<a href="' . Yii::$app->request->baseUrl . '/upload/berkas/' . $model->berkas . '"><div align="center"><button class="btn btn-success glyphicon glyphicon-download-alt" type="submit"></button></div></a>';
@@ -109,7 +118,10 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
                 },
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'headerOptions' => ['style' => 'text-align:center'],
+            ],
         ],
     ]); ?>
 </div>

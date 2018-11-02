@@ -12,6 +12,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        // email
        'mail' => [
         'useFileTransport' => false,
         'class' => 'yii\swiftmailer\Mailer',
@@ -19,11 +20,12 @@ $config = [
             'class' => 'Swift_SmtpTransport',
             'host' => 'smtp.gmail.com',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
             'username' => 'firstiaulyaa@gmail.com',
-            'password' => '@0123456789',
+            'password' => '@Aulya240898',
             'port' => '587', // Port 25 is a very common port too
             'encryption' => 'tls', // It is often used, check your provider or mail server specs
             ],
         ],
+        // template
         'view' => [
             'theme' => [
                 'pathMap' => [
@@ -34,6 +36,10 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'xZwBUaLuXNYfzBoDSXjzSJxPnWxycjul',
+        ],
+                'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -66,14 +72,7 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+        
     ],
     'params' => $params,
 ];

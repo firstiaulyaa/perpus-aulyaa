@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
+//use yii\captcha\Captcha;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -35,8 +35,6 @@ $gembok = [
            ->field($model, 'confirmation_password', $gembok)
            ->label(false)
            ->passwordInput(['placeholder' => $model->getAttributeLabel('confirmation password')]) ?>
-
-       <?= $form->field($model, 'verifyCode')->widget(Captcha::className()) ?>
 
        <div class="row">
            <!-- /.col -->

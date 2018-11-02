@@ -13,7 +13,7 @@ use app\models\Penerbit;
 // kalau mau ada teks (misal: Buku)sebelum pemanggilan nama
 // $this->title = "Buku : " . $model->nama;
 
-$this->title = $model->nama; // memanggil nama dari data buku
+$this->title = 'Detail Buku : ' . $model->nama; // memanggil nama dari data buku
 $this->params['breadcrumbs'][] = ['label' => 'Buku', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman buku
 ?>
@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
 <!-- menampilkan satu data buku -->
      <?= DetailView::widget([
         'model' => $model,
+        'template' => '<tr><th width="180px" style="text-align:right">{label}</th><td>{value}</td></tr>',
         'attributes' => [
             // 'id',
             [
@@ -46,11 +47,11 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
                 // 'attribute' => 'nama',
                 'value' => $model->nama . ' (' . $model->tahun_terbit . ')'
             ],
-            [
-                'attribute' => 'tahun_terbit',
-                // Masehi -> untuk penambahan kata masehi dibelakang tahun
-                'value' => $model->tahun_terbit //. ' Masehi'
-            ],
+            // [
+            //     'attribute' => 'tahun_terbit',
+            //     // Masehi -> untuk penambahan kata masehi dibelakang tahun
+            //     'value' => $model->tahun_terbit //. ' Masehi'
+            // ],
             [
                'label' => 'Penulis',
                'value' => function($data)

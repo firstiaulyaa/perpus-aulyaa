@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\User_role;
+use app\models\User_role; // untuk memanggil model user_role
 use app\models\User_roleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

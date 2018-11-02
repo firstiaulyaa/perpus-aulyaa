@@ -11,7 +11,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Kategori', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman kategori       
 ?>
 <div class="kategori-create">
-<div class="box box-primary">
+<div class="box box-default">
+<div class="box-body">
 
     <?= $this->render('_form', [
         'model' => $model,

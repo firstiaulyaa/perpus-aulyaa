@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=perpusaulya',
-    'username' => 'root',
-    'password' => '',
+    'dsn' => 'mysql:host=localhost;dbname=perpusaulya', // untuk memanggil database
+    'username' => 'root', // username phpmysql
+    'password' => '', // password phpmysql
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

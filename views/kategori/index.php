@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman k
 
 <!-- menampilkan data kategori ke dalam tabel -->
 <div class="kategori-index">
-<div class="box box-primary">
+<div class="box box-default">
 <div class="box-body">
 
     <p>
@@ -31,7 +31,13 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman k
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+            'class' => 'yii\grid\SerialColumn',
+            'header' => 'No',
+            'headerOptions' => ['style' => 'text-align:center'],
+            'contentOptions' => ['style' => 'text-align:center']
+            ],
+
 
             // 'id',
             'nama',

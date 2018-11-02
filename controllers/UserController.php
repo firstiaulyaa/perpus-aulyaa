@@ -66,8 +66,15 @@ class UserController extends Controller
     {
         $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        // $model->id_user_role = $id_user_role;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+            
+            if (!$model->save()) 
+            {
+                return $this->redirect(['index', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -124,4 +131,5 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

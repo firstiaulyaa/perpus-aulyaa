@@ -13,19 +13,19 @@ use yii\base\Model;
 */
 class NewPassword extends Model
 {
-   public $new_password;
-   public $confirmation_password;
-   public $verifyCode;
+ public $new_password;
+ public $confirmation_password;
+ //public $verifyCode;
 
    /**
     * @return array the validation rules.
     */
    public function rules()
    {
-       return [
-           [['new_password'], 'required'],
-           ['confirmation_password', 'compare', 'compareAttribute' => 'new_password','message' => '{attribute} Password tidak sama'],
-           ['verifyCode', 'captcha'],
-       ];
+     return [
+       [['new_password'], 'required'],
+       ['confirmation_password', 'compare', 'compareAttribute' => 'new_password','message' => '{attribute} Password tidak sama'],
+           //['verifyCode', 'captcha'],
+     ];
    }
-}
+ }

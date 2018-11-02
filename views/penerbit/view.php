@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use kartik\detail\DetailView;
+use app\models\Buku;
+use app\models\Penulis;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Penerbit */
@@ -11,10 +13,31 @@ $this->params['breadcrumbs'][] = ['label' => 'Penerbit', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="penerbit-view">
-<div class="box box-primary">
+<div class="box box-default">
+<!--     <div class="box-header with-border">
+        <h3 class="box-title">Profil</h3>
+    </div> -->
 <div class="box-body">
 
-    <p>
+    <?= DetailView::widget([
+        'model' => $model,
+        'template' => '<tr><th width="180px" style="text-align:right">{label}</th><td>{value}</td></tr>',
+        'attributes' => [
+            [
+                'group' => true,
+                'label' => 'Profil',
+                'rowOptions' => ['class' => 'bg-blue'],
+                //'groupOptions' => ['class' => 'text-center']
+            ],
+            'id',
+            'nama',
+            'alamat:ntext',
+            'telepon',
+            'email:email',
+        ],
+    ]) ?>
+
+        <p>
         <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -24,39 +47,29 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'nama',
-            'alamat:ntext',
-            'telepon',
-            'email:email',
-        ],
-    ]) ?>
+    
 </div>
 </div>
 </div>
 
 <div>&nbsp;</div>
-<h3>Daftar Buku</h3>
-<div class="box box-primary">
+<div class="box box-default">
+     <div class="box-header with-border">
+        <h3 class="box-title">Daftar Buku</h3>
+    </div>
 <div class="box-body">
-<table class="table">
+<table class="table table-bordered">
     <tr>
-        <th>No</th>
-        <th>Nama Buku</th>
+        <th style="text-align: center; width: 50px">No</th>
+        <th style="text-align: center;">Nama Buku</th>
+        <th style="text-align: center;">Penulis</th>
         <th>&nbsp;</th>
     </tr>
     <?php $no=1; foreach ($model->findAllBuku() as $buku): ?>
     <tr>
         <td><?= $no; ?></td>
         <td><?= Html::a($buku->nama, ['buku/view', 'id' => $buku->id]); ?></td>
-        <td>
-            <?= Html::a("Ubah", ["buku/update","id"=>$buku->id], ['class' => 'btn btn-primary']); ?> &nbsp;
-            <?= Html::a("Hapus", ["buku/delete","id"=>$buku->id], ['class' => 'btn btn-danger'], ['data-method' => 'post', 'data-confirm' => 'Hapus data ?']); ?> &nbsp;
-        </td>
+        <td><?= Html::a($buku->penulis->nama, ['penulis/view', 'id' => $buku->id]); ?></td>
     </tr>
     <?php $no++; endforeach ?>
 </table>

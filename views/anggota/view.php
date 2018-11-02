@@ -12,8 +12,12 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman a
 ?>
 
 <div class="anggota-view">
-<div class="box box-primary">
-<div class="box-body"> 
+<div class="box box-default">
+     <div class="box-header with-border">
+        <h3 class="box-title">Profil</h3>
+    </div>
+<div class="box-body">
+
 
 <!-- button ubah dan hapus pada suatu data -->
     <p>
@@ -28,19 +32,27 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman a
     </p>
 <!-- akhir button ubah dan hapus pada suatu data -->
 
-<!-- untuk melihat detailView pada data yang dipilih -->
-    <?= DetailView::widget([
+<?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            // 'id',
             'nama',
             'alamat',
             'telepon',
             'email:email',
-            'status_aktif',
+            [
+                'attribute' => 'status_aktif',
+                'value' => function ($model) {
+                    if ($model->status_aktif == 1) {
+                        return "Aktif";
+                    } else {
+                        return "Tidak";
+                    }
+                }
+            ],
         ],
     ]) ?>
-<!-- akhir untuk melihat detailView pada data yang dipilih -->
+
 </div>
 </div>
 </div>

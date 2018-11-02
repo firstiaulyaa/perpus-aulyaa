@@ -25,6 +25,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tanggal_kembali') ?>
 
+    <?= $form->field($model, 'id_status') ?>
+
+    <?= $form->field($model, 'tanggal_pengembalian_buku') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

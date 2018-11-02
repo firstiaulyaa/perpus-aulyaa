@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul di halaman kat
 
 <!-- menampilkan view kategori -->
 <div class="kategori-view">
-<div class="box box-primary">
+<div class="box box-default">
 <div class="box-body">
 
 
@@ -48,25 +48,28 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul di halaman kat
 <!-- menampilkan daftar buku berdasarkan kategori -->
 <?php 
 
+
 ?>
 <div>&nbsp;</div>
-<h3>Daftar Buku</h3>
-<div class="box box-primary">
+<div class="box box-default">
+     <div class="box-header with-border">
+        <h3 class="box-title">Daftar Buku</h3>
+    </div>
 <div class="box-body">
-<table class="table">
+<table class="table table-bordered">
     <tr>
-        <th>No</th>
-        <th>Nama Buku</th>
+        <th style="text-align: center; width: 50px">No</th>
+        <th style="text-align: center;">Nama Buku</th>
+        <th style="text-align: center;">Penulis</th>
+        <th style="text-align: center;">Penerbit</th>
         <th>&nbsp;</th>
     </tr>
     <?php $no=1; foreach ($model->findAllBuku() as $buku): ?>
     <tr>
         <td><?= $no; ?></td>
         <td><?= Html::a($buku->nama, ['buku/view', 'id' => $buku->id]); ?></td>
-        <td>
-            <?= Html::a("Ubah", ["buku/update","id"=>$buku->id], ['class' => 'btn btn-primary']); ?> &nbsp;
-            <?= Html::a("Hapus", ["buku/delete","id"=>$buku->id], ['class' => 'btn btn-danger'], ['data-method' => 'post', 'data-confirm' => 'Hapus data ?']); ?> &nbsp;
-        </td>
+        <td><?= Html::a($buku->penulis->nama, ['penulis/view', 'id' => $buku->id]); ?></td>
+        <td><?= Html::a($buku->penerbit->nama, ['penerbit/view', 'id' => $buku->id]); ?></td>
     </tr>
     <?php $no++; endforeach ?>
 </table>

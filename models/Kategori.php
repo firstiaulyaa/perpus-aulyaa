@@ -10,6 +10,8 @@ use Yii;
  * @property int $id
  * @property string $nama
  */
+
+// Kategori Models
 class Kategori extends \yii\db\ActiveRecord
 {
     /**
@@ -42,80 +44,69 @@ class Kategori extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     * @return array untuk dropdown
-     */
 
-
-
-    // -------------------------------------------------------------- //
     // untuk menampilkan (list) data kategori berdasarkan id dan nama //
-    // -------------------------------------------------------------- //
-
     public static function getList()
-        {
-            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
-        }
-
-    // -------------------------------------------------------------- //
+    {
+        return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+    }
+    // ------------------------------------------------------------- //
 
 
     
-    // ---------------------------------------------------------------------------- //
     // untuk mencari dan memanggil semua data buku berdasarkan id_kategori dan nama //
-    // ---------------------------------------------------------------------------- //
-
     public function findAllBuku()
-        {
-            return Buku::find()
-            ->andWhere(['id_kategori' => $this->id])
-            ->orderBy(['nama' => SORT_ASC])
-            ->all();
-        }
-
+    {
+        return Buku::find()
+        ->andWhere(['id_kategori' => $this->id])
+        ->orderBy(['nama' => SORT_ASC])
+        ->all();
+    }
     // ------------------------------------------------------------- //
 
     
 
-    // --------------------------------------- //
-    // untuk melakukan hitung data pada grafik //
-    // --------------------------------------- //
-
+    // untuk melakukan hitung jumlah data pada grafik //
     public static function getCount()
-        {
-            return static::find()->count();
-        }
-
-    // --------------------------------------- //
-
+    {
+        return static::find()->count();
+    }
+    // ------------------------------------------------------------- //
 
 
-    // ----------------------------------------------------------------- //
+
+
     // Mengambil semua data yang ada di tabel buku yang dimana id buku akan ditampilkan berdasarkan id_*** / id_*** akan mengambil data di buku yang berkaitan dengan id_*** //
-    // ----------------------------------------------------------------- //
 
     public function getManyBuku()
-        {
-            return $this->hasMany(Buku::class, ['id_kategori' => 'id']);
-        }
+    {
+        return $this->hasMany(Buku::class, ['id_kategori' => 'id']);
+    }
 
     // ------------------------------------------------------------- //
 
 
 
-    // ------------------------------------------------------ //
     // Menjumlah semua data buku yang berkaitan dengan id_*** //
-    // ------------------------------------------------------ //
 
     public static function getGrafikList()
-        {
-            $data = [];
-            foreach (static::find()->all() as $kategori) {
-                $data[] = [$kategori->nama, (int) $kategori->getManyBuku()->count()];
-            }
-            return $data;
+    {
+        $data = [];
+        foreach (static::find()->all() as $kategori) {
+            $data[] = [$kategori->nama, (int) $kategori->getManyBuku()->count()];
         }
+        return $data;
+    }
 
     // ------------------------------------------------------ //
+
+    
+    // fungsi getJumlahBuku yaitu untuk mencari jumlah buku berdasarkan kategori yang dia miliki.
+    public function getJumlahBuku()
+    {
+        return Buku::find()
+        ->andwhere(['id_kategori' => $this->id])
+        ->count();
+    }
 }
+// -- akhir Kategori Models

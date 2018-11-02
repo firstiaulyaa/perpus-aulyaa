@@ -1,20 +1,69 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use kartik\detail\DetailView;
+use app\models\Anggota;
+use app\models\Petugas;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = $model->id;
+$this->title = 'Detail Akun : ' . $model->username;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
+<div class="box box-default">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="box-body">
 
-    <p>
+    <?= DetailView::widget([
+        'model' => $model,
+        'template' => '<tr><th width="180px" style="text-align:right">{label}</th><td>{value}</td></tr>',
+        'attributes' => [
+            [
+                'group' => true,
+                'label' => 'Akun',
+                'rowOptions' => ['class' => 'bg-blue'],
+                //'groupOptions' => ['class' => 'text-center']
+            ],
+            'id',
+            [
+                'attribute' => 'id_anggota',
+                'label' => 'ID Anggota',
+                'format' => 'raw',
+                'value' => $model->id_anggota,
+            ],
+            [
+                'attribute' => 'id_petugas',
+                'label' => 'ID Petugas',
+                'format' => 'raw',
+                'value' => $model->id_petugas,
+            ],
+            [
+                'attribute' => 'username',
+                'format' => 'raw',
+                'value' => $model->username,
+            ],
+             [
+                'attribute' => 'password',
+                'format' => 'raw',
+                'value' => $model->password,
+            ],
+             [
+                'attribute' => 'id_user_role',
+                'format' => 'raw',
+                'value' => $model->id_user_role,
+            ],
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => $model->status,
+            ],
+        ],
+    ]) ?>
+<div class="box-body">
+        <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -24,18 +73,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'username',
-            'password',
-            'id_anggota',
-            'id_petugas',
-            'id_user_role',
-            'status',
-        ],
-    ]) ?>
-
+</div>
 </div>

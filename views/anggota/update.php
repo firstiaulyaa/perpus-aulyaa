@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = 'Ubah';
 ?>
 
 <div class="anggota-update">
-<div class="box box-primary">
+<div class="box box-default">
 <div class="box-body">
 
     <?= $this->render('_form', [

@@ -15,11 +15,12 @@ class BukuSearch extends Buku
     /**
      * {@inheritdoc}
      */
+        public $globalSearch;
     public function rules()
     {
         return [
             [['id', 'id_penulis', 'id_penerbit', 'id_kategori'], 'integer'],
-            [['nama', 'tahun_terbit', 'sinopsis', 'sampul', 'berkas'], 'safe'],
+            [['nama', 'tahun_terbit', 'sinopsis', 'sampul', 'berkas', 'globalSearch'], 'safe'],
         ];
     }
 
@@ -66,10 +67,10 @@ class BukuSearch extends Buku
             'id_kategori' => $this->id_kategori,
         ]);
 
-        $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'sinopsis', $this->sinopsis])
-            ->andFilterWhere(['like', 'sampul', $this->sampul])
-            ->andFilterWhere(['like', 'berkas', $this->berkas]);
+        $query->orFilterWhere(['like', 'nama', $this->globalSearch])
+            ->orFilterWhere(['like', 'sinopsis', $this->globalSearch])
+            ->orFilterWhere(['like', 'sampul', $this->globalSearch])
+            ->orFilterWhere(['like', 'berkas', $this->globalSearch]);
 
         return $dataProvider;
     }

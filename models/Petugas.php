@@ -56,9 +56,9 @@ class Petugas extends \yii\db\ActiveRecord
     // --------------------------------- //
 
     public static function getCount()
-        {
-            return static::find()->count();
-        }
+    {
+        return static::find()->count();
+    }
 
     // --------------------------------- //
 

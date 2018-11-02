@@ -6,12 +6,15 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Petugas */
 
-$this->title = $model->nama  . " (Petugas)";
+$this->title = $model->nama;
 $this->params['breadcrumbs'][] = ['label' => 'Petugas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="petugas-view">
-<div class="box box-primary">
+<div class="box box-default">
+     <div class="box-header with-border">
+        <h3 class="box-title">Profil</h3>
+    </div>
 <div class="box-body">
 
     <p>

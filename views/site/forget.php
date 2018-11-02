@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
+//use yii\captcha\Captcha;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -30,8 +30,6 @@ $email = [
            ->field($model, 'email', $email)
            ->label(false)
            ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
-
-       <?= $form->field($model, 'verifyCode')->widget(Captcha::className()) ?>
 
        <div class="row">
            <!-- /.col -->

@@ -16,9 +16,6 @@ use kartik\file\FileInput; // untuk memanggil fileinput yang sudah terinstall ag
 ?>
 
 <!-- form buku -->
-<div class="buku-form">
-<div class="box box-primary">
-<div class="box-body">
 
     <?php $form = ActiveForm::begin(); ?> 
 
@@ -100,10 +97,9 @@ use kartik\file\FileInput; // untuk memanggil fileinput yang sudah terinstall ag
                 'overwriteInitial' => false,
             ],
         ]); ?>
-    <!-- akhir penggunaan file input pada sampul dan berkas -->
+     <!-- akhir penggunaan file input pada sampul dan berkas -->
 
-
-    <!-- button simpan -->
+     <!-- button simpan -->
         <div class="form-group">
             <?= Html::submitButton('Simpan', ['class' => 'btn btn-success']) ?>
         </div>

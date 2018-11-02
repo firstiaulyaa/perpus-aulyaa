@@ -9,10 +9,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="kategori-form">
-<div class="box box-primary">
-<div class="box-body">
-
-
+	
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>

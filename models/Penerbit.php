@@ -60,9 +60,9 @@ class Penerbit extends \yii\db\ActiveRecord
      * @return array untuk dropdown
      */
     public static function getList()
-        {
-            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
-        }
+    {
+        return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+    }
 
     // ------------------------------------------------------- //
 
@@ -73,12 +73,12 @@ class Penerbit extends \yii\db\ActiveRecord
     // --------------------------------------------------------- //
 
     public function findAllBuku()
-        {
-            return Buku::find()
-            ->andWhere(['id_penerbit' => $this->id])
-            ->orderBy(['nama' => SORT_ASC])
-            ->all();
-        }
+    {
+        return Buku::find()
+        ->andWhere(['id_penerbit' => $this->id])
+        ->orderBy(['nama' => SORT_ASC])
+        ->all();
+    }
 
      // ------------------------------------------------------- //
     
@@ -89,9 +89,9 @@ class Penerbit extends \yii\db\ActiveRecord
     // --------------------------------- //
 
     public static function getCount()
-        {
-            return static::find()->count();
-        }
+    {
+        return static::find()->count();
+    }
 
     // ------------------------------------------------------- //
 
@@ -102,9 +102,9 @@ class Penerbit extends \yii\db\ActiveRecord
     // ------------------------------------------------------- //
 
     public function getManyBuku()
-        {
-            return $this->hasMany(Buku::class, ['id_Penerbit' => 'id']);
-        }
+    {
+        return $this->hasMany(Buku::class, ['id_Penerbit' => 'id']);
+    }
 
     // ------------------------------------------------------- //
 
@@ -115,13 +115,13 @@ class Penerbit extends \yii\db\ActiveRecord
     // ------------------------------------------------ //
 
     public static function getGrafikList()
-        {
-            $data = [];
-            foreach (static::find()->all() as $penerbit) {
-                $data[] = [$penerbit->nama, (int) $penerbit->getManyBuku()->count()];
-            }
-            return $data;
+    {
+        $data = [];
+        foreach (static::find()->all() as $penerbit) {
+            $data[] = [$penerbit->nama, (int) $penerbit->getManyBuku()->count()];
         }
+        return $data;
+    }
 
     // ------------------------------------------------------- //
 

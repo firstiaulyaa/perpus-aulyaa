@@ -56,9 +56,9 @@ class Penulis extends \yii\db\ActiveRecord
     // ------------------------------------------------------- //
 
     public static function getList()
-        {
-            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
-        }
+    {
+        return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+    }
 
     // ------------------------------------------------------- //
     
@@ -69,11 +69,11 @@ class Penulis extends \yii\db\ActiveRecord
     // ------------------------------------------------------- //
 
     public function findAllBuku()
-        {
-            return Buku::find()
-                ->andWhere(['id_penulis' => $this->id])
-                ->all();
-        }
+    {
+        return Buku::find()
+        ->andWhere(['id_penulis' => $this->id])
+        ->all();
+    }
 
 
     // ------------------------------------------------------- //
@@ -81,11 +81,11 @@ class Penulis extends \yii\db\ActiveRecord
     // ------------------------------------------------------- //
 
     public function getJumlahBuku()
-        {
-            return Buku::find()
-                ->andWhere(['id_penulis' => $this->id])
-                ->count();
-        }
+    {
+        return Buku::find()
+        ->andWhere(['id_penulis' => $this->id])
+        ->count();
+    }
 
     // ------------------------------------------------------- //
 
@@ -96,9 +96,9 @@ class Penulis extends \yii\db\ActiveRecord
     // --------------------------------- //
 
     public static function getCount()
-        {
-            return static::find()->count();
-        }
+    {
+        return static::find()->count();
+    }
 
     // --------------------------------- //
 
@@ -109,12 +109,12 @@ class Penulis extends \yii\db\ActiveRecord
     // ---------------------------------------------------- //
 
     public function getManyBuku()
-        {
-            return $this->hasMany(Buku::class, ['id_Penulis' => 'id']);
-        }
+    {
+        return $this->hasMany(Buku::class, ['id_Penulis' => 'id']);
+    }
 
     // ---------------------------------------------------- //
-  
+    
 
 
     // ------------------------------------------------------ //
@@ -122,13 +122,13 @@ class Penulis extends \yii\db\ActiveRecord
     // ------------------------------------------------------ //
 
     public static function getGrafikList()
-        {
-            $data = [];
-            foreach (static::find()->all() as $penulis) {
-                $data[] = [$penulis->nama, (int) $penulis->getManyBuku()->count()];
-            }
-            return $data;
+    {
+        $data = [];
+        foreach (static::find()->all() as $penulis) {
+            $data[] = [$penulis->nama, (int) $penulis->getManyBuku()->count()];
         }
+        return $data;
+    }
 
     // ----------------------------------------------------- //
 }

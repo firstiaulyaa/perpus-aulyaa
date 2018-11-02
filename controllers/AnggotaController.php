@@ -5,21 +5,17 @@ namespace app\controllers;
 use Yii;
 use app\models\Anggota; // untuk memanggil model Anggota
 use app\models\AnggotaSearch; // untuk memanggil model AnggotaSearch
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException; // untuk memanggil pesan jika model tidak ditemukan
 use PhpOffice\PhpWord\IOFactory; // untuk 
 use PhpOffice\PhpWord\PhpWord; // untuk memanggil ekstension PhpWord
 use PhpOffice\PhpWord\Shared\Converter; // untuk 
+use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\web\UploadedFile; // untuk memanggil ekstension UploadFile
 
-/**
- * AnggotaController implements the CRUD actions for Anggota model.
- */
+// Anggota Controller
 class AnggotaController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -33,153 +29,106 @@ class AnggotaController extends Controller
     }
 
 
-
-    // ----------------------------------------------------------------- //
     // action untuk menampilkan semua data pada Data Anggota (index.php) //
-    // ----------------------------------------------------------------- //
-
-    /**
-     * Lists all Anggota models.
-     * @return mixed
-     */
-
     public function actionIndex()
-        {
-            $searchModel = new AnggotaSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    {
+        $searchModel = new AnggotaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
-
-    // --------------------------------------------- //
- 
-
-
-    // -------------------------------------------------------------------------------- //
-    // action untuk menampilkan suatu data yang dipilih pada Data Anggota pada view.php //
-    // -------------------------------------------------------------------------------- //
-
-    /**
-     * Displays a single Anggota model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-
-    public function actionView($id)
-        {
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
-
-    // -------------------------------------------------------------------------------- //
-
-
-
-    // ------------------------------------------------------------ //
-    // action untuk menambahkan anggota ke database pada create.php //
-    // ------------------------------------------------------------ //
-
-    /**
-     * Creates a new Anggota model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-
-    public function actionCreate()
-        {
-            $model = new Anggota();
-
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     // ------------------------------------------------------------- //
-
-
-
-    // --------------------------------------------------------------- //
-    // action untuk melakukan update data yang dipilih pada update.php //
-    // --------------------------------------------------------------- //
-
-    /**
-     * Updates an existing Anggota model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-
-    public function actionUpdate($id)
-        {
-            $model = $this->findModel($id);
-
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-
-    // --------------------------------------------------------------- //
-
-
-
-    // -------------------------------------------------------- //
-    // action untuk menghapus data yang dipilih di Data Anggota //
-    // -------------------------------------------------------- //
-
-    /**
-     * Deletes an existing Anggota model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-
-    public function actionDelete($id)
-        {
-            $this->findModel($id)->delete();
-
-            return $this->redirect(['index']);
-        }
-
-    // ------------------------------------------------------------- //
-
-
-
-    // ------------------------------------------------------- //
-    // action untuk memanggil model Data Anggota di model lain //
-    // ------------------------------------------------------- //
-
-    /**
-     * Finds the Anggota model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Anggota the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-        {
-            if (($model = Anggota::findOne($id)) !== null) {
-                return $model;
-            }
-
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        
-    // ------------------------------------------------------------- //
-}
     
 
+
+    // action untuk menampilkan suatu data yang dipilih pada Data Anggota (views/view) //
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+    // ------------------------------------------------------------- //
+
+
+
+    // action untuk menambahkan anggota ke database dengan id (views/create) //
+    public function actionCreate()
+    {
+        $model = new Anggota();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $foto = UploadedFile::getInstance($model, 'foto');
+
+            $model->foto = time() . '_' . $berkas->name;
+
+            $model->save(false);
+
+            $berkas->saveAs(Yii::$app->basePath . '/web/user/' . $model->foto);
+            Yii::$app->session->setFlash('success', 'Berhasil menambahkan anggota');
+            return $this->redirect(['index', 'id' => $model->id]);
+        }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+    // ------------------------------------------------------------- //
+
+
+
+    // action untuk melakukan update data yang dipilih (views/update) //
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        $foto_lama = $model->foto;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $foto = UploadedFile::getInstance($model, 'foto');
+            if ($foto !== null) {
+                unlink(Yii::$app->basePath . '/web/user/' . $foto_lama);
+                $model->foto = time() . '_' . $foto->name;
+                $foto->saveAs(Yii::$app->basePath . '/web/user/' . $model->foto);
+            } else {
+                $model->foto = $foto_lama;
+            }
+
+            Yii::$app->session->setFlash('success', 'Data berhasil di perbaharui');
+            return $this->refresh();
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+    // ------------------------------------------------------------- //
+
+
+
+    // action untuk menghapus data yang dipilih di Data Anggota //
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+    // ------------------------------------------------------------- //
+
+
+
+    // action untuk memanggil model Data Anggota di controller lain //
+    protected function findModel($id)
+    {
+        if (($model = Anggota::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    // ------------------------------------------------------------- //   
+}
+// -- akhir Anggota Controller

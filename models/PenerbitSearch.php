@@ -63,9 +63,9 @@ class PenerbitSearch extends Penerbit
         ]);
 
         $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'alamat', $this->alamat])
-            ->andFilterWhere(['like', 'telepon', $this->telepon])
-            ->andFilterWhere(['like', 'email', $this->email]);
+        ->andFilterWhere(['like', 'alamat', $this->alamat])
+        ->andFilterWhere(['like', 'telepon', $this->telepon])
+        ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }

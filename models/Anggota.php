@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use yii\helpers\StringHelper;
 /**
  * This is the model class for table "anggota".
  *
@@ -16,70 +16,69 @@ use Yii;
  */
 class Anggota extends \yii\db\ActiveRecord
 {
-
     /**
      * {@inheritdoc}
      */
     public static function tableName()
-        {
-            return 'anggota';
-        }
+    {
+        return 'anggota';
+    }
 
     /**
      * {@inheritdoc}
      */
     public function rules()
-        {
-            return [
-                [['nama'], 'required'],
-                [['status_aktif'], 'integer'],
-                [['nama', 'alamat'], 'string', 'max' => 255],
-                [['telepon', 'email'], 'string', 'max' => 50],
-            ];
-        }
+    {
+        return [
+            [['nama'], 'required'],
+            [['status_aktif'], 'integer'],
+            [['nama', 'alamat'], 'string', 'max' => 255],
+            [['telepon', 'email'], 'string', 'max' => 50],
+            [['foto'], 'file', 'extensions'=>'jpg, gif, png', 'maxSize'=>5218288, 'tooBig' => 'batas limit upload gambar 5mb'],
+        ];
+    }
 
     /**
      * {@inheritdoc}
      */
     public function attributeLabels()
-        {
-            return [
-                'id' => 'ID',
-                'nama' => 'Nama',
-                'alamat' => 'Alamat',
-                'telepon' => 'Telepon',
-                'email' => 'Email',
-                'status_aktif' => 'Status Aktif',
-            ];
-        }
-
-
-    // ------------------------------------------------------------- //
-    // untuk menampilkan (list) data anggota berdasarkan id dan nama //
-    // ------------------------------------------------------------- //
-
+    {
+        return [
+            'id' => 'ID',
+            'nama' => 'Nama',
+            'alamat' => 'Alamat',
+            'telepon' => 'Telepon',
+            'email' => 'Email',
+            'status_aktif' => 'Status Aktif',
+            'foto' => 'Foto',
+        ];
+    }
+    public static function getCount()
+    {
+        return static::find()->count();
+    }
     public static function getList()
+    {
+        if (User::isAnggota())
         {
-            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+            return \yii\helpers\ArrayHelper::map(Anggota::find()->andWhere(['id' => Yii::$app->user->identity->id_anggota])->all(), 'id', 'nama');
         }
-
-    // ------------------------------------------------------------- //
-
-
-
-    // -------------------------------------------------------------------------- //
-    // untuk menghitung jumlah semua data anggota (untuk ditampilkan pada grafik) //
-    // -------------------------------------------------------------------------- //
-
-     public static function getCount()
-        {
-            return static::find()->count();
-        }
-
-    // -------------------------------------------------------------------------- //
-
+    }
+    // Relasi dengan User
     public function getUser()
-   {
-       return $this->hasOne(User::class, ['id_anggota' => 'id']);
-   }
+    {
+        return $this->hasOne(User::class, ['id_anggota' => 'id']);
+    }
+    // public function getManyBuku()
+    // {
+    //     return $this->hasMany(Buku::class, ['id_anggota' => 'id']);
+    // }
+    // public static function getGrafikList()
+    // {
+    //     $data = [];
+    //     foreach (static::find()->all() as $anggota) {
+    //         $data[] = [StringHelper::truncate($anggota->nama, 20), (int) $anggota->getManyBuku()->count()];
+    //     }
+    //     return $data;
+    // }
 }

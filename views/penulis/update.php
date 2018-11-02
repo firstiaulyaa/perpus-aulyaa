@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' 
 $this->params['breadcrumbs'][] = 'Ubah';
 ?>
 <div class="penulis-update">
-<div class="box box-primary">
+<div class="box box-default">
 <div class="box-body">
 
     <?= $this->render('_form', [

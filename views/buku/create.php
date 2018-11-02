@@ -12,11 +12,13 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
 ?>
 
 <div class="buku-create">
-<div class="box box-primary">
+<div class="box box-default">
+<div class="box-body">
 
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
+</div>
 </div>
 </div>

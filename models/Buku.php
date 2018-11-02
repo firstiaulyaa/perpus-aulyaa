@@ -17,6 +17,8 @@ use Yii;
  * @property string $sampul
  * @property string $berkas
  */
+
+// Buku Models
 class Buku extends \yii\db\ActiveRecord
 {
     /**
@@ -37,13 +39,14 @@ class Buku extends \yii\db\ActiveRecord
             [['tahun_terbit'], 'safe'],
             [['id_penulis', 'id_penerbit', 'id_kategori'], 'integer'],
             [['sinopsis'], 'string'],
-            [['nama', 'sampul', 'berkas'], 'string', 'max' => 255],
+            [['nama', 'harga'], 'string', 'max' => 255],
+            [['sampul'], 'file', 'extensions'=>'jpg, gif, png', 'maxSize'=>5218288, 'tooBig' => 'batas limit upload gambar 5mb'
+            ],
+            [['berkas'], 'file', 'extensions'=>'docx, doc, pdf, xls'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // action untuk menampilkan judul field pada tabel
     public function attributeLabels()
     {
         return [
@@ -56,90 +59,73 @@ class Buku extends \yii\db\ActiveRecord
             'sinopsis' => 'Sinopsis',
             'sampul' => 'Sampul',
             'berkas' => 'Berkas',
+            'harga' => 'Harga',
         ];
     }
+    // ------------------------------------------------------------- //
 
 
-    // --------------------------------------------------------------- //
+
     // untuk menampilkan data penulis (nama sesuai id) pada modul buku //
-    // --------------------------------------------------------------- //
-
     public function getPenulis()
-        {
-            return $this->hasOne(Penulis::class, ['id' => 'id_penulis']);
-        }
-
-    // --------------------------------------------------------------- //
-
+    {
+        return $this->hasOne(Penulis::class, ['id' => 'id_penulis']);
+    }
+    // ------------------------------------------------------------- //
 
 
-    // ---------------------------------------------------------------- //
+
     // untuk menampilkan data penerbit (nama sesuai id) pada modul buku //
-    // ---------------------------------------------------------------- //
-
     public function getPenerbit()
-        {
-            return $this->hasOne(Penerbit::class, ['id' => 'id_penerbit']);
-        }
-
-    // ---------------------------------------------------------------- //
-
+    {
+        return $this->hasOne(Penerbit::class, ['id' => 'id_penerbit']);
+    }
+    // ------------------------------------------------------------- //
 
 
-    // ---------------------------------------------------------------- //
+
     // untuk menampilkan data kategori (nama sesuai id) pada modul buku //
-    // ---------------------------------------------------------------- //
-
     public function getKategori()
-        {
-            return $this->hasOne(Kategori::class, ['id' => 'id_kategori']);
-        }
-
-    // ---------------------------------------------------------------- //
-
-
-
+    {
+        return $this->hasOne(Kategori::class, ['id' => 'id_kategori']);
+    }
     // ------------------------------------------------------------- //
+
+
+
     // untuk menampilkan (list) data anggota berdasarkan id dan nama //
-    // ------------------------------------------------------------- //
-
     public static function getList()
-        {
-            return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
-        }
-
+    {
+        return \yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'nama');
+    }
     // ------------------------------------------------------------- //
 
 
 
-    // ----------------------------------------------------------------------- //
     // untuk menghitung jumlah semua data buku (untuk ditampilkan pada grafik) //
-    // ----------------------------------------------------------------------- //
-
-     public static function getCount()
-        {
-            return static::find()->count();
-        }
-
-    // ------------------------------------------------------------------------ //
-
-
-
+    public static function getCount()
+    {
+        return static::find()->count();
+    }
     // ------------------------------------------------------------- //
-    // contoh menampilkan tulisan
-    public static function hallo()
-    {
-        return "Selamat Datang";
-    }
 
-    public static function hallolagi()
-    {
-        return "Lalalalalalalalalala";
-    }
 
-    public function halo()
-    {
-        return "Lililililili";
-    }
+
+    // contoh untuk menampilkan tulisan (di myLibrary tidak ditampilkan) //
+    //  public static function hallo()
+    // {
+    //     return "Selamat Datang";
+    // }
+
+    // public static function hallolagi()
+    // {
+    //     return "Lalalalalalalalalala";
+    // }
+
+    // public function halo()
+    // {
+    //     return "Lililililili";
+    // }
     // ------------------------------------------------------------- //
 }
+// -- akhir Buku Models
