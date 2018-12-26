@@ -11,6 +11,7 @@ use PhpOffice\PhpWord\IOFactory; // untuk
 use PhpOffice\PhpWord\Shared\Converter; // untuk 
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use Mpdf\Mpdf;
 
 // Kategori Controller
 class KategoriController extends Controller
@@ -60,7 +61,7 @@ class KategoriController extends Controller
         $model = new Kategori();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-             Yii::$app->session->setFlash('success', 'Berhasil menambahkan kategori');
+            Yii::$app->session->setFlash('success', 'Kategori Buku berhasil ditambahkan');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -78,7 +79,7 @@ class KategoriController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Data berhasil di perbaharui');
+            Yii::$app->session->setFlash('success', 'Data berhasil dirperbaharui');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -94,7 +95,7 @@ class KategoriController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+         Yii::$app->session->setFlash('success', 'Data berhasil dihapus');
         return $this->redirect(['index']);
     }
     // ------------------------------------------------------------- //
@@ -111,5 +112,15 @@ class KategoriController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     // ------------------------------------------------------------- //
+
+    public function actionExportPdf() 
+    {
+      $this->layout='main1';
+      $model = Kategori::find()->All();
+      $mpdf=new mPDF();
+      $mpdf->WriteHTML($this->renderPartial('temp_pdf',['model'=>$model]));
+      $mpdf->Output('DataKatBuku_MyLibrary.pdf', 'D');
+      exit;
+    }
 }
 // -- akhir Kategori Controller

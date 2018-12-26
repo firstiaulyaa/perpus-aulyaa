@@ -11,6 +11,7 @@ use PhpOffice\PhpWord\Shared\Converter; // untuk
 use PhpOffice\PhpWord\IOFactory; // untuk 
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use Mpdf\Mpdf;
 
 // Penerbit Controller
 class PenerbitController extends Controller
@@ -60,7 +61,7 @@ class PenerbitController extends Controller
         $model = new Penerbit();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Berhasil menambahkan penerbit');
+            Yii::$app->session->setFlash('success', 'Penerbit berhasil ditambahkan');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -77,7 +78,7 @@ class PenerbitController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-             Yii::$app->session->setFlash('success', 'Data berhasil di perbaharui');
+             Yii::$app->session->setFlash('success', 'Data berhasil diperbaharui');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -93,7 +94,7 @@ class PenerbitController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+         Yii::$app->session->setFlash('success', 'Data berhasil dihapus');
         return $this->redirect(['index']);
     }
     // ------------------------------------------------------------- //
@@ -110,5 +111,15 @@ class PenerbitController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     // ------------------------------------------------------------- //
+
+    public function actionExportPdf() 
+    {
+      $this->layout='main1';
+      $model = Penerbit::find()->All();
+      $mpdf=new mPDF();
+      $mpdf->WriteHTML($this->renderPartial('temp_pdf',['model'=>$model]));
+      $mpdf->Output('DataPenerbit_MyLibrary.pdf', 'D');
+      exit;
+    }
 }
 // -- akhir Penerbit Controller

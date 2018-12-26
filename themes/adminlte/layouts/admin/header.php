@@ -48,14 +48,14 @@ use app\models\User;
                      <?php if (User::isAnggota()): ?>
                          <?= Html::a(
                             'Profile',
-                            ['anggota/view', 'id' => Yii::$app->user->identity->id_anggota],
+                            ['anggota/update', 'id' => Yii::$app->user->identity->id_anggota],
                             ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                         ) ?>
                     <?php endif ?>
                     <?php if (User::isPetugas()): ?>
                      <?= Html::a(
                         'Profile',
-                        ['petugas/view', 'id' => Yii::$app->user->identity->id_petugas],
+                        ['petugas/update', 'id' => Yii::$app->user->identity->id_petugas],
                         ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                     ) ?>
                 <?php endif ?>

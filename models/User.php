@@ -148,7 +148,7 @@ public function getPetugas()
 
     public static function getFotoAdmin($htmlOptions=[])
     {
-        return Html::img('@web/images/admin.jpg', $htmlOptions);
+        return Html::img('@web/images/admin.png', $htmlOptions);
  }
 
  public static function getFotoAnggota($htmlOptions=[])

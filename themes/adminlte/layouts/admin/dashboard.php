@@ -159,31 +159,32 @@ $this->title = 'myLibrary';
       </div>
     </div>
 
-    <div class="col-sm-6">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Grafik Peminjaman Buku</h3>
-        </div>
-        <div class="box-body">
-          <?= \miloschuman\highcharts\Highcharts::widget([
-            'options' => [
-              'credits' => true,
-              'title' => ['text' => 'DATA PEMINJAMAN BUKU PERBULAN'],
-              'exporting' => ['enabled' => true],
-              'xAxis' => [
-                'categories' => \app\components\Helper::getListBulanGrafik(),
+  <!-- Grafik Penulis -->
+  <div class="col-sm-6">
+    <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">Buku Berdasarkan Penulis</h3>
+    </div>
+      <div class="box-body">
+        <?=Highcharts::widget([
+          'options' => [
+          'credits' => false,
+          'title' => ['text' => 'PENULIS BUKU'],
+          'exporting' => ['enabled' => true],
+          'plotOptions' => [
+          'pie' => [
+            'cursor' => 'pointer',
+            ],
+          ],
+          'series' => [
+            [
+              'type' => 'line',
+              'name' => 'Penulis',
+              'data' => Penulis::getGrafikList(),
               ],
-              'series' => [
-                [
-                  'type' => 'column',
-                  'colorByPoint' => true,
-                  'name' => 'Peminjaman',
-                  'data' => \app\models\Peminjaman::getCountGrafik(),
-                  'showInLegend' => false
-                ],
               ],
-            ]
-          ]) ?>
+            ],
+          ]);?>
         </div>
       </div>
     </div>
@@ -202,7 +203,7 @@ $this->title = 'myLibrary';
             <th width="55px" class="text-center" rowspan="2">No</th>
             <th class="text-center" rowspan="2">Nama Buku</th>
             <th class="text-center" rowspan="2">Nama Peminjam</th>
-            <th class="text-center" colspan="4">Tanggal Pengembalian</th>
+            <th class="text-center" colspan="5">Tanggal Pengembalian</th>
             <th class="text-center" rowspan="2">   </th>
           </tr>
           <tr>
@@ -210,7 +211,7 @@ $this->title = 'myLibrary';
             <th width="150px" class="text-center">Batas Kembali</th>
             <th width="150px" class="text-center">Pengembalian</th>
             <th width="150px" class="text-center">Status</th>
-            <th width="150px" class="text-center">   </th>
+            <th width="150px" class="text-center">Selisih Hari</th>
           </tr>
         </thead>
         <tbody>
@@ -225,6 +226,7 @@ $this->title = 'myLibrary';
             <td><center><?= $peminjaman->tanggal_kembali ?></center></td>
             <td><center><?= $peminjaman->tanggal_pengembalian_buku ?></center></td>
             <td><center><?= $peminjaman->getStatusPeminjaman() ?></center></td>
+            <td><center><?= $peminjaman->getTanggal() ?></center></td>
             <td> <?= Html::a('Detail', ['peminjaman/view', 'id' => $peminjaman->id], ['class' => 'btn btn-primary']); ?></td>
             <td class="text-center">
               <?= Html::a('<i class="fa fa-check-square-o"></i>', $url = null, ['data-toggle' => 'tooltip', 'title' => 'Setujui Buku','data-confirm' => 'Apakah anda yakin akan menyetujui buku yang di pinjam?']); ?>
@@ -299,183 +301,3 @@ $this->title = 'myLibrary';
 
 
 
-<!-- Dashboard Petugas -->
-<?php if (Yii::$app->user->identity->id_user_role == 3): ?>
-
-  <!-- Jumlah Data -->
-  <!-- Menampilkan jumlah Penulis -->
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
-          <div class="inner">
-            <p>Jumlah Penulis</p>
-
-            <h3><?= Yii::$app->formatter->asInteger(Penulis::getCount()); ?></h3>
-          </div>
-          <div class="icon">
-            <i class="fa fa-user"></i>
-          </div>
-          <a href="<?=Url::to(['penulis/index']);?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-
-  <!-- Menampilkan jumlah Penerbit -->
-      <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-red">
-          <div class="inner">
-            <h3><?= Yii::$app->formatter->asInteger(Penerbit::getCount()); ?></h3>
-            <p>Jumlah Penerbit</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-bookmark"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-
-  <!-- Menampilkan jumlah Buku -->
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-blue">
-          <div class="inner">
-            <h3><?= Yii::$app->formatter->asInteger(Buku::getCount()); ?></h3>
-            <p>Jumlah Buku</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-book"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-
-  <!-- Menampilkan jumlah peminjam -->
-      <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-orange">
-          <div class="inner">
-            <h3><?= Yii::$app->formatter->asInteger(Peminjaman::getCount()); ?></h3>
-            <p>Jumlah Peminjam</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-exchange"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-  <!-- Grafik -->
-  <!-- Grafik Kategori Buku -->
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="box box-primary">
-      <div class="box-header with-border">
-          <h3 class="box-title">Buku Berdasarkan Kategori</h3>
-      </div>
-      <div class="box-body">
-        <?=Highcharts::widget([
-          'options' => [
-          'credits' => false,
-          'title' => ['text' => 'KATEGORI BUKU'],
-          'exporting' => ['enabled' => true],
-          'plotOptions' => [
-          'pie' => [
-          'cursor' => 'pointer',
-            ],
-          ],
-          'series' => [
-            [
-              'type' => 'pie',
-              'name' => 'Kategori',
-              'data' => Kategori::getGrafikList(),
-            ],
-          ],
-          ],
-          ]);?>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Grafik Peminjaman Buku</h3>
-        </div>
-        <div class="box-body">
-          <?= \miloschuman\highcharts\Highcharts::widget([
-            'options' => [
-              'credits' => true,
-              'title' => ['text' => 'DATA PEMINJAMAN BUKU PERBULAN'],
-              'exporting' => ['enabled' => true],
-              'xAxis' => [
-                'categories' => \app\components\Helper::getListBulanGrafik(),
-              ],
-              'series' => [
-                [
-                  'type' => 'column',
-                  'colorByPoint' => true,
-                  'name' => 'Peminjaman',
-                  'data' => \app\models\Peminjaman::getCountGrafik(),
-                  'showInLegend' => false
-                ],
-              ],
-            ]
-          ]) ?>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-14">
-    <div class="box box-primary">
-    <div class="box-header with-border">
-      <h3 class="box-title">Daftar Peminjam Terbaru</h3>
-    </div>
-      <div class="box-body">
-    
-      <table class="table table-bordered table-hover">
-            <thead class="bg-purple">
-          <tr>
-            <th width="55px" class="text-center" rowspan="2">No</th>
-            <th class="text-center" rowspan="2">Nama Buku</th>
-            <th class="text-center" rowspan="2">Nama Peminjam</th>
-            <th class="text-center" colspan="5">Tanggal Pengembalian</th>
-            <th class="text-center" rowspan="2">   </th>
-          </tr>
-          <tr>
-            <th width="150px" class="text-center">Tanggal Pinjam</th>
-            <th width="150px" class="text-center">Batas Kembali</th>
-            <th width="150px" class="text-center">Pengembalian</th>
-            <th width="150px" class="text-center">Status</th>
-            <th width="150px" class="text-center">   </th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php $no=1; ?>
-          <?php foreach (Peminjaman::find()->andWhere(['status_buku' => 1])->orderBy(['tanggal_pinjam' => SORT_DESC])->limit(10)->all() as $peminjaman): ?>
-            
-          <tr>
-            <td class="text-center"><?= $no; ?></td>
-            <td><?= $peminjaman->buku->nama ?></td>
-            <td><?= $peminjaman->anggota->nama ?></td>
-            <td><center><?= $peminjaman->tanggal_pinjam ?></center></td>
-            <td><center><?= $peminjaman->tanggal_kembali ?></center></td>
-            <td><center><?= $peminjaman->tanggal_pengembalian_buku ?></center></td>
-            <td><center><?= $peminjaman->getStatusPeminjaman() ?></center></td>
-            <td> <?= Html::a('Detail', ['peminjaman/view', 'id' => $peminjaman->id], ['class' => 'btn btn-primary']); ?></td>
-            <td class="text-center">
-              <?= Html::a('<i class="fa fa-check-square-o"></i>', $url = null, ['data-toggle' => 'tooltip', 'title' => 'Setujui Buku','data-confirm' => 'Apakah anda yakin akan menyetujui buku yang di pinjam?']); ?>
-            </td>
-          </tr>
-          <?php $no++ ?> 
-          <?php endforeach ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<?php endif ?>
-
-  

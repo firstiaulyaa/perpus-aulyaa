@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman b
 
         <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success btn-flat']); ?>
 
-        <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
+        <?= Html::a('Export ke PDF', ['buku/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
     </p>
 
     <?= GridView::widget([

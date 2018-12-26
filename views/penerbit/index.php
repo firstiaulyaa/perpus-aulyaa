@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success btn-flat']); ?>
 
-        <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
+        <?= Html::a('Export ke PDF', ['penerbit/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
     </p>
 
     <?= GridView::widget([

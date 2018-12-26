@@ -13,29 +13,13 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul dari halaman a
 
 <div class="anggota-view">
 <div class="box box-default">
-     <div class="box-header with-border">
-        <h3 class="box-title">Profil</h3>
-    </div>
-<div class="box-body">
-
-
-<!-- button ubah dan hapus pada suatu data -->
-    <p>
-        <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Apakah Anda yakin ingin menghapusnya?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-<!-- akhir button ubah dan hapus pada suatu data -->
+<div class="box-body">  
 
 <?= DetailView::widget([
         'model' => $model,
+        'template' => '<tr><th width="180px" style="text-align:right">{label}</th><td>{value}</td></tr>',
         'attributes' => [
-            // 'id',
+            'id',
             'nama',
             'alamat',
             'telepon',

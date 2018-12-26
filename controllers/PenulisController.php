@@ -12,6 +12,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\IOFactory;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use Mpdf\Mpdf;
 
 // Penulis Controller
 class PenulisController extends Controller
@@ -61,7 +62,7 @@ class PenulisController extends Controller
         $model = new Penulis();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-             Yii::$app->session->setFlash('success', 'Berhasil menambahkan penulis');
+             Yii::$app->session->setFlash('success', 'Penulis berhasil ditambahkan');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -79,7 +80,7 @@ class PenulisController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-             Yii::$app->session->setFlash('success', 'Data berhasil di perbaharui');
+             Yii::$app->session->setFlash('success', 'Data berhasil diperbaharui');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -95,7 +96,7 @@ class PenulisController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+         Yii::$app->session->setFlash('success', 'Data berhasil dihapus');
         return $this->redirect(['index']);
     }
     // ------------------------------------------------------------- //
@@ -112,5 +113,15 @@ class PenulisController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     // ------------------------------------------------------------- //
+
+    public function actionExportPdf() 
+    {
+      $this->layout='main1';
+      $model = Penulis::find()->All();
+      $mpdf=new mPDF();
+      $mpdf->WriteHTML($this->renderPartial('temp_pdf',['model'=>$model]));
+      $mpdf->Output('DataPenulis_MyLibrary.pdf', 'D');
+      exit;
+    }
 }
 // -- akhir Penulis Controller

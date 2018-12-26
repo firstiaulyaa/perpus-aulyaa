@@ -11,7 +11,7 @@ use yii\helpers\Html;
 		<h3>Berhasil pinjam buku.</h3>
 		<h3>Pada Tanggal </h3><h1><?= $model->tanggal_pinjam ?></h1>
 		<p>Dengan nama buku : <b><h2><?= @$model->buku->nama; ?></h2></b></p>
-		<p>Terima kasih sudah mengunjungi perpusJJ.</p>
+		<p>Terima kasih sudah meminjam buku di myLibrary.</p>
 		<hr width="60%">
 	</center>
 </div>

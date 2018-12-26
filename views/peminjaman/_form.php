@@ -57,6 +57,7 @@ use kartik\date\DatePicker;
        'format' => 'yyyy-mm-dd'
        ]
    ]) ?>
+
     
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

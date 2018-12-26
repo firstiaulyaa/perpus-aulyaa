@@ -41,7 +41,7 @@ $fieldOptions2 = [
            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
        <div class="row">
-           <div class="col-xs-8">
+           <div class="col-xs-8" align="left">
                <?= $form->field($model, 'rememberMe')->checkbox() ?>
            </div>
            <!-- /.col -->
@@ -58,7 +58,7 @@ $fieldOptions2 = [
    
           <div class="social-auth-links text-center">
            <p>- OR -</p>
-           <b><?= Html::a('Buat Akun Baru', ['site/registrasi']); ?></b>
+           <b><?= Html::a('Buat Akun Baru', ['site/registrasi'], ['class' => 'btn btn-danger btn-block btn-flat', 'name' => 'login-button']); ?></b>
        </div>
    </div>
    <!-- /.login-box-body -->

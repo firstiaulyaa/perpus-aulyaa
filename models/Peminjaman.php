@@ -46,7 +46,7 @@ class Peminjaman extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'ID Peminjaman',
             'id_buku' => 'Buku',
             'id_anggota' => 'Anggota',
             'tanggal_pinjam' => 'Tanggal Pinjam',

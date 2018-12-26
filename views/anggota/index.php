@@ -14,20 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box box-default">
         <div class="box-header with-border">
             <div class="box-body">
-                
-            </div>
-            <!-- <h1><?= Html::encode($this->title) ?></h1> -->
-            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
              <p>
-        <?= Html::a('Tambah Anggota', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Export ke Word', ['export-word'], ['class' => 'btn btn-info']); ?>
 
-        <?= Html::a('Export ke Word', ['export-word'], ['class' => 'btn btn-info']); ?>
+                <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success']); ?>
 
-        <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success']); ?>
-
-        <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger']); ?>
-    </p>
+                <?= Html::a('Export ke PDF', ['site/export-pdf'], ['class' => 'btn btn-danger']); ?>
+            </p>
 
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,

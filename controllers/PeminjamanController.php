@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
 use yii\filters\AccessControl;
+use Mpdf\Mpdf;
 /**
  * PeminjamanController implements the CRUD actions for Peminjaman model.
  */
@@ -100,9 +101,9 @@ class PeminjamanController extends Controller
             $model->status_buku = 1;
             $model->tanggal_pengembalian_buku = '0000-00-00';
             Yii::$app->mail->compose('@app/template/pemberitahuan',['model' => $model])
-                ->setFrom('samsulaculhadi@gmail.com')
+                ->setFrom('firstiaulyaa@gmail.com')
                 ->setTo($model->anggota->email)
-                ->setSubject('Pemberitahuan - PerpusJJ')
+                ->setSubject('Pemberitahuan - myLibrary')
                 ->send();
             $model->save();
             Yii::$app->session->setFlash('success', 'Berhasil pinjam buku. Silahkan cek email anda.');
@@ -177,4 +178,132 @@ class PeminjamanController extends Controller
         Yii::$app->session->setFlash('Berhasil', 'Buku telah berhasil di kembalikan');
         return $this->redirect(['peminjaman/index']);
     }
+
+    public function actionExportWord()
+    {
+
+        $phpWord = new phpWord();
+        $section = $phpWord->addSection(
+            [
+                'marginTop' => Converter::cmTotwip(1.80),
+                'marginBottom' => Converter::cmTotwip(1.80),
+                'marginLeft' => Converter::cmTotwip(2.1),
+                'marginRight'=> Converter::cmTotwip(1.6),
+            ]
+        );
+
+        $fontStyle = [
+            'underline' => 'dash',
+            'bold' => true,
+            'italic' => true,
+        ];
+        $paragraphCenter = [
+            'alignment' => 'center',
+        ];
+        $headerStyle = [
+            'bold' => true,
+            'fgColor' => 'ffffff',
+        ];
+
+        $section->addText(
+            'Data Buku Perpustakaan SMAN 2 TANGSEL',
+            $headerStyle,
+            $fontStyle,
+            $paragraphCenter
+        );
+
+        $section->addTextBreak(1);
+
+        $judul = $section->addTextRun($paragraphCenter);
+
+        $judul->addText('Keterangan dari', $fontStyle);
+        $judul->addText('Tabel', ['italic' => true, $fontStyle]);
+        $judul->addText('Buku',  ['bold' => true]); 
+
+        $table =$section->addTable([
+            'alignment' => 'left',
+            'bgColor' => 6,
+            'borderSize' => 6,
+        ]);
+        $table->addRow(null);
+        $table->addCell(500)->addText('No', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Nama Buku', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Tahun Terbit', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Penulis', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Penerbit', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Kategori', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Sinopsis', $headerStyle, $paragraphCenter);
+
+        $semuaBuku = Buku::find()->all();
+        $nomor = 1;
+        foreach ($semuaBuku as $buku) {
+            $table->addRow(null);
+            $table->addCell(500)->addText($nomor++, null, $headerStyle, $paragraphCenter);
+            $table->addCell(5000)->addText($buku->nama, null);
+            $table->addCell(5000)->addText($buku->tahun_terbit, null, $paragraphCenter);
+            $table->addCell(3000)->addText(@$buku->penulis->nama, null, $paragraphCenter);
+            $table->addCell(3000)->addText(@$buku->penerbit->nama, null, $paragraphCenter);
+            $table->addCell(3000)->addText(@$buku->kategori->nama, null, $paragraphCenter);
+            $table->addCell(5000)->addText($buku->sinopsis, null);
+        }
+        $filename = 'DataBuku_MyLibrary.docx';
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Transfer-Encoding: binary');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
+        $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $xmlWriter->save("php://output"); 
+    }
+
+  public function actionExportPdf() 
+    {
+      $this->layout='main1';
+      $model = Peminjaman::find()->All();
+      $mpdf = new mPDF();
+      $mpdf->WriteHTML($this->renderPartial('temp_pdf',['model'=>$model]));
+      $mpdf->Output('DataPeminjaman_MyLibrary.pdf', 'D');
+      exit;
+  }
+  
+  public function actionExportExcel() {
+
+    $spreadsheet = new PhpSpreadsheet\Spreadsheet();
+    $worksheet = $spreadsheet->getActiveSheet();
+
+    //Menggunakan Model
+
+    $database = Buku::find()
+    ->select('id, id_anggota, id_buku, tanggal_pinjam, tanggal_kembali, status_buku')
+    ->all();
+
+    $worksheet->setCellValue('A1', 'ID');
+    $worksheet->setCellValue('B1', 'ID ANGGOTA');
+    $worksheet->setCellValue('C1', 'ID BUKU');
+    $worksheet->setCellValue('D1', 'TANGGAL PINJAM');
+    $worksheet->setCellValue('C1', 'TANGGAL KEMBALI');
+    $worksheet->setCellValue('C1', 'STATUS BUKU');
+
+    //JIka menggunakan DAO , gunakan QueryAll()
+
+    /*
+     
+    $sql = "select kode_jafung,jenis_jafung from ref_jafung"
+     
+    $database = Yii::$app->db->createCommand($sql)->queryAll();
+     
+    */
+
+    $database = \yii\helpers\ArrayHelper::toArray($database);
+    $worksheet->fromArray($database, null, 'A2');
+
+    $writer = new Xlsx($spreadsheet);
+
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="DataPeminjaman_MyLibrary.xlsx"');
+    header('Cache-Control: max-age=0');
+    $writer->save('php://output');
+  }
+
 }

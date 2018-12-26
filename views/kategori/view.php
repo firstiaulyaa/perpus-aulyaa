@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title; // memanggil judul di halaman kat
 <!-- menampilkan satu data kategori -->
     <?= DetailView::widget([
         'model' => $model,
+        'template' => '<tr><th width="180px" style="text-align:right">{label}</th><td>{value}</td></tr>',
         'attributes' => [
             'id',
             'nama',

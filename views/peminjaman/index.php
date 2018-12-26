@@ -18,11 +18,17 @@ $this->params['breadcrumbs'][] = $this->title;
 <!-- Admin -->
 <?php if (Yii::$app->user->identity->id_user_role == 1): ?>
     <div class="peminjaman-index">
-        <div class="box box-primary">
+        <div class="box box-default">
             <div class="box-header with-border">
                 <div class="box-body">
 
-                </div>
+                    <p>
+                        <?= Html::a('Export ke Word', ['export-word'], ['class' => 'btn btn-info btn-flat']); ?>
+
+                        <?= Html::a('Export ke Excel', ['export-excel'], ['class' => 'btn btn-success btn-flat']); ?>
+
+                        <?= Html::a('Export ke PDF', ['peminjaman/export-pdf'], ['class' => 'btn btn-danger btn-flat']); ?>
+                    </p>
 
                 <!-- <h1><?= Html::encode($this->title) ?></h1> -->
                 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -48,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'text-align:center'],
                             'format' => 'raw',
                             'filter' => Buku::getList(),
-                            'contentOptions' => ['style' =>'text-align:center;'],
+                            'contentOptions' => ['style' =>'text-align:left'],
                             'value' => function ($data) {
                                 return @$data->buku->nama;
                             }
@@ -58,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'text-align:center'],
                             'format' => 'raw',
                             'filter' => Anggota::getList(),
-                            'contentOptions' => ['style' =>'text-align:center;'],
+                            'contentOptions' => ['style' =>'text-align:left'],
                             'value' => function ($data) {
                                 return @$data->anggota->nama;
                             }
@@ -67,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'tanggal_pinjam',
                         [
                             'attribute' => 'tanggal_pinjam',
-                            'format' => ['DateTime', 'php: Y / F / d-D'],
+                            'format' => ['DateTime', 'php: D, d  F  Y'],
                             'label' => 'Tanggal Pinjam',
                             'encodeLabel' => false,
                             'headerOptions'=> ['style' => 'text-align:center; width:200px;'],
@@ -75,12 +81,22 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [
                             'attribute' => 'tanggal_kembali',
-                            'format' => 'date',
+                            'format' => ['DateTime', 'php: D, d  F  Y'],
                             'label' => 'Tanggal Kembali',
                             'encodeLabel' => false,
                             'headerOptions'=> ['style' => 'text-align:center; width:200px;'],
                             'contentOptions' => ['style' => 'text-align:center']
                         ],
+            [
+                'attribute' => 'status_buku',
+                'value' => function ($model) {
+                    if ($model->status_buku == 0) {
+                        return "Dikembalikan";
+                    } else {
+                        return "Belum Dikembalikan";
+                    }
+                }
+            ],
                         [
                             'class' => 'yii\grid\ActionColumn',
                             'contentOptions' => ['style' => 'text-align:center;width:80px']
@@ -281,17 +297,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             'contentOptions' => ['style' => 'text-align:center']
                         ],
 
-                    // if (User::isAdmin()) {
-                    //     [
-                    //         'class' => 'yii\grid\ActionColumn',
-                    //         'contentOptions' => ['style' => 'text-align:center']
-                    //     ]
-                    // }
-                    // else
-                    // {
-                    //     return true;
-                    // };
-                    // 'tanggal_kembali',
+                                [
+                'attribute' => 'status_buku',
+                'value' => function ($model) {
+                    if ($model->status_buku == 0) {
+                        return "Dikembalikan";
+                    } else {
+                        return "Belum Dikembalikan";
+                    }
+                }
+            ],
 
                     ],
                 ]); ?>

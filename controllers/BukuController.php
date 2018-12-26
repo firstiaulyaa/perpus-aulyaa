@@ -19,6 +19,8 @@ use yii\base\Behavior;
 use yii\helpers\Url;
 use app\models\User;
 use yii\filters\AccessControl;
+use Da\QrCode\QrCode;
+use Mpdf\Mpdf;
 
 // Buku Controller
 class BukuController extends Controller
@@ -104,7 +106,7 @@ class BukuController extends Controller
 
       $sampul->saveAs(Yii::$app->basePath . '/web/upload/sampul/' . $model->sampul);
       $berkas->saveAs(Yii::$app->basePath . '/web/upload/berkas/' . $model->berkas);
-       Yii::$app->session->setFlash('success', 'Berhasil menambahkan buku');
+      Yii::$app->session->setFlash('success', 'Buku berhasil ditambahkan');
       return $this->redirect(['view', 'id' => $model->id]);
     }
     
@@ -146,7 +148,7 @@ class BukuController extends Controller
       }
 
       $model->save(false);
-      Yii::$app->session->setFlash('success', 'Data berhasil di perbaharui');
+      Yii::$app->session->setFlash('success', 'Data berhasil diperbaharui');
       return $this->redirect(['view', 'id' => $model->id]);
     }
     
@@ -162,7 +164,7 @@ class BukuController extends Controller
   public function actionDelete($id)
   {
     $this->findModel($id)->delete();
-
+    Yii::$app->session->setFlash('success', 'Data berhasil dihapus');
     return $this->redirect(['index']);
   }
   // ------------------------------------------------------------- //
@@ -180,121 +182,139 @@ class BukuController extends Controller
   }
   // ------------------------------------------------------------- //
 
+ public function actionExportWord()
+    {
+
+        $phpWord = new phpWord();
+        $section = $phpWord->addSection(
+            [
+                'marginTop' => Converter::cmTotwip(1.80),
+                'marginBottom' => Converter::cmTotwip(1.80),
+                'marginLeft' => Converter::cmTotwip(2.1),
+                'marginRight'=> Converter::cmTotwip(1.6),
+            ]
+        );
+
+        $fontStyle = [
+            'underline' => 'dash',
+            'bold' => true,
+            'italic' => true,
+        ];
+        $paragraphCenter = [
+            'alignment' => 'center',
+        ];
+        $headerStyle = [
+            'bold' => true,
+            'fgColor' => 'ffffff',
+        ];
+
+        $section->addText(
+            'Data Buku Perpustakaan SMAN 2 TANGSEL',
+            $headerStyle,
+            $fontStyle,
+            $paragraphCenter
+        );
+
+        $section->addTextBreak(1);
+
+        $judul = $section->addTextRun($paragraphCenter);
+
+        $judul->addText('Keterangan dari', $fontStyle);
+        $judul->addText('Tabel', ['italic' => true, $fontStyle]);
+        $judul->addText('Buku',  ['bold' => true]); 
+
+        $table =$section->addTable([
+            'alignment' => 'left',
+            'bgColor' => 6,
+            'borderSize' => 6,
+        ]);
+        $table->addRow(null);
+        $table->addCell(500)->addText('No', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Nama Buku', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Tahun Terbit', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Penulis', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Penerbit', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Kategori', $headerStyle, $paragraphCenter);
+        $table->addCell(5000)->addText('Sinopsis', $headerStyle, $paragraphCenter);
+
+        $semuaBuku = Buku::find()->all();
+        $nomor = 1;
+        foreach ($semuaBuku as $buku) {
+            $table->addRow(null);
+            $table->addCell(500)->addText($nomor++, null, $headerStyle, $paragraphCenter);
+            $table->addCell(5000)->addText($buku->nama, null);
+            $table->addCell(5000)->addText($buku->tahun_terbit, null, $paragraphCenter);
+            $table->addCell(3000)->addText(@$buku->penulis->nama, null, $paragraphCenter);
+            $table->addCell(3000)->addText(@$buku->penerbit->nama, null, $paragraphCenter);
+            $table->addCell(3000)->addText(@$buku->kategori->nama, null, $paragraphCenter);
+            $table->addCell(5000)->addText($buku->sinopsis, null);
+        }
+        $filename = 'DataBuku_MyLibrary.docx';
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Transfer-Encoding: binary');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
+        $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $xmlWriter->save("php://output"); 
+    }
+
+  public function actionExportPdf() 
+    {
+      $this->layout='main1';
+      $model = Buku::find()->All();
+      $mpdf=new mPDF();
+      $mpdf->WriteHTML($this->renderPartial('temp_pdf',['model'=>$model]));
+      $mpdf->Output('DataBuku_MyLibrary.pdf', 'D');
+      exit;
+  }
+  
+  public function actionExportExcel() {
+
+    $spreadsheet = new PhpSpreadsheet\Spreadsheet();
+    $worksheet = $spreadsheet->getActiveSheet();
+
+    //Menggunakan Model
+
+    $database = Buku::find()
+    ->select('nama, tahun_terbit, id_penulis')
+    ->all();
+
+    $worksheet->setCellValue('A1', 'Judul Buku');
+    $worksheet->setCellValue('B1', 'Tahun Terbit');
+    $worksheet->setCellValue('C1', 'Penulis');
+
+    //JIka menggunakan DAO , gunakan QueryAll()
+
+    /*
+     
+    $sql = "select kode_jafung,jenis_jafung from ref_jafung"
+     
+    $database = Yii::$app->db->createCommand($sql)->queryAll();
+     
+    */
+
+    $database = \yii\helpers\ArrayHelper::toArray($database);
+    $worksheet->fromArray($database, null, 'A2');
+
+    $writer = new Xlsx($spreadsheet);
+
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="DataBuku_MyLibrary.xlsx"');
+    header('Cache-Control: max-age=0');
+    $writer->save('php://output');
+  }
 
 
-  // action untuk export Data Buku ke word
-  public function actionExportWord()
-  {
-   $phpWord = new \PhpOffice\PhpWord\PhpWord();
-       $phpWord->setDefaultFontSize(11); // ukuran font
-       $phpWord->setDefaultFontName('Bookman Old Style'); // style font
-        // mengatur jarak (space)
-       $phpWord->setDefaultParagraphStyle(
-         array(
-           'align'      => 'both',
-           'spaceAfter' => Converter::pointToTwip(0.7),
-           'spacing'    => 0,
-         )
-       );
-        // mengatur jarak penulisan
-       $sectionStyle = [ 
-         'marginTop'=>Converter::cmToTwip(2.25),
-         'marginBottom'=>Converter::cmToTwip(2.49),
-         'marginLeft'=>Converter::cmToTwip(2.2),
-         'marginRight'=>Converter::cmToTwip(2.6),
-       ];
-        // mengatur paragraf
-       $section = $phpWord->addSection($sectionStyle);
-       $phpWord->addParagraphStyle('headerPStyle', ['alignment'=>'center']);
-       $phpWord->addParagraphStyle('headerPStyleNoSpace', ['alignment'=>'center']);
-       $phpWord->addFontStyle('headerFStyle', ['bold'=>true]);
-       $phpWord->addParagraphStyle(
-         'multipleTabLeft',
-         array(
-           'tabs' => array(
-             new \PhpOffice\PhpWord\Style\Tab('left', 750),
-             new \PhpOffice\PhpWord\Style\Tab('left', 1050),
-           ),
-           'align'=>'left'
-         )
-       );
-       // mengatur penulisan angka
-       $phpWord->addNumberingStyle(
-         'multilevel',
-         array(
-           'type' => 'multilevel',
-           'levels' => array(
-             array('format' => 'upperRoman', 'text' => '%1.', 'left' => 400, 'hanging' => 360, 'tabPos' => 360),
-             array('format' => 'decimal', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
-           )
-         )
-       );
-       // membuat header
-       $header_alamat = ['bold' => false, 'size' => 12]; // membuat pemanggilan style tulisan alamat
-       $header_style = ['bold' => false, 'size' => 12,]; // membuat pemanggilan style header
-       $header_page = $section->addHeader();
-       $imageStyle = array(
-         'width' => 65,
-         'wrappingStyle' => 'square',
-         'positioning' => 'absolute',
-         'posHorizontalRel' => 'margin',
-         'posVerticalRel' => 'line',
-       );
-       $paragraphCenter = [
-         'alignment' =>'center',   
-       ];
-       $fontStyleBold = [
-        'bold' => true,
-        'size' => 11,
-      ];
-
-       // text untuk header
-      $textrun->addText("\t\t PEMERINTAH KABUPATEN PURBALINGGA", $header_style,'headerPStyle');
-      $header_page->addText("\t\t KECAMATAN KUTASARI", $header_style, 'headerPStyle');
-      $header_page->addText("\t\t DESA SUMINGKIR", $header_alamat, 'headerPStyle'); 
-      $header_page->addText("\t\t JALAN PINGIT NOMOR 3303070003", $header_alamat, 'headerPStyle');
-      $header_page->addText("\t\t         ", $header_alamat, 'headerPStyle');
-
-
-
-        // Line
-      $header_page->addShape(
-       'line',
-       array(
-         'points'  => '1,1 630,0',
-         'outline' => array(
-           'color'      => '#000000',
-           'line'       => 'thickThin',
-           'weight'     => 2,
-         ),
-       )
-     );   
-       // membuat teks ($ untuk pemanggilan style teks)
-      $section->addText( 
-       'SURAT PENGANTAR IMUNISASI',
-       $phpWord,
-       $paragraphCenter,
-       $fontStyleBold
-     );
-      $section->addText( 
-       'Nomor  : ./003/I/2017',
-       $phpWord,
-       $paragraphCenter
-     );
-      $section->addText( 
-       'Nomor  : ./003/I/2017',
-       $phpWord
-     );
-
-
-       // Tempat penyimpanan file sama nama file.
-        $filename = time() . '_' . 'export-word.docx'; // nama file
-        $path = 'document' . $filename;
-        $xmlWrite = IOFactory::createWriter($phpWord, 'Word2007');
-        $xmlWrite->save($path);
-
-        return $this->redirect($path);
-      }  
   // ------------------------------------------------------------- //
+  public function ActionQrCode() {
+    $qrCode = (new QrCode('We going kokobop'))
+      ->setSize(250)
+      ->setMargin(5)
+      ->useForegroundColor(0, 0, 0);
+
+    $qrCode->writeFile(Yii::$app->basePath . '@web/qrcode/code.png');
+  }
 }
 // -- akhir Buku Controller

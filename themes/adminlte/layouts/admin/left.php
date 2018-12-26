@@ -14,9 +14,6 @@ use app\models\User;
                        <?php if (User::isAnggota()): ?>
                            <?= User::getFotoAnggota(['class' => 'img-circle']); ?>
                        <?php endif ?>
-                       <?php if (User::isPetugas()): ?>
-                           <?= User::getFotoPetugas(['class' => 'img-circle']); ?>
-                       <?php endif ?>
             </div>
             <div class="pull-left info">
                 <!-- untuk menentukan siapa yg login -->
@@ -57,18 +54,22 @@ use app\models\User;
             ]
         ) ?>
 
-         <?php } elseif(User::isAnggota()) { ?>
+    <?php } elseif(User::isAnggota()) { ?>
             <?= dmstr\widgets\Menu::widget(
             [
-                'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => [
-                    ['label' => 'Home', 'icon' => 'home', 'url' => ['site/index']],
-                    ['label' => 'Menu', 'options' => ['class' => 'header']],
-                    ['label' => 'Data Peminjaman', 'icon' => 'calendar-o', 'url' => ['peminjaman/index']],
-                    ],  
+                    'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+                    'items' => [
+                        //['label' => 'Rumah', 'icon' => 'home', 'url' => ['site/index'],],
+                        ['label' => 'Home', 'icon' => 'home', 'url' => ['site/dashboard'],],
+                        ['label' => 'myLibrary', 'options' => ['class' => 'header']],
+                        // ['label' => 'Buku', 'icon' => 'book', 'url' => ['buku/index'],],
+                        ['label' => 'Peminjaman', 'icon' => 'calendar-o', 'url' => ['peminjaman/index'],],
+                        ['label' => 'Option', 'options' => ['class' => 'header']],
+                    ],
             ]
         ) ?>
 
+        
      <?php } elseif(User::isPetugas()) {?>
 
         <?= dmstr\widgets\Menu::widget(
@@ -85,11 +86,11 @@ use app\models\User;
                         ['label' => 'Kategori Buku', 'icon' => 'server', 'url' => ['kategori/index']],
                         ['label' => 'Menu Pengguna', 'options' => ['class' => 'header']],
                         ['label' => 'Anggota', 'icon' => 'user', 'url' => ['anggota/index'],],
-                        ['label' => 'Denda', 'icon' => 'money', 'url' => ['kenaikan-denda/index'],],
                     ],
             ]
         ) ?>
     <?php } ?>
+
     </section>
 
 </aside>

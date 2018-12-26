@@ -62,18 +62,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <h3 class="box-title">Daftar Buku</h3>
     </div>
 <div class="box-body">
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
+    <thead class="bg-blue">
     <tr>
         <th style="text-align: center; width: 50px">No</th>
         <th style="text-align: center;">Nama Buku</th>
         <th style="text-align: center;">Penerbit</th>
-        <th>&nbsp;</th>
     </tr>
+    </thead>
     <?php $no=1; foreach ($model->findAllBuku() as $buku): ?>
     <tr>
         <td><?= $no; ?></td>
         <td><?= Html::a($buku->nama, ['buku/view', 'id' => $buku->id]); ?></td>
-        <td><?= Html::a($buku->penerbit->nama, ['penerbit/view', 'id' => $buku->id]); ?></td>
+        <td><?= Html::a($buku->penerbit->nama, ['penerbit/view', 'id' => $buku->id_penerbit]); ?></td>
     </tr>
     <?php $no++; endforeach ?>
 </table>

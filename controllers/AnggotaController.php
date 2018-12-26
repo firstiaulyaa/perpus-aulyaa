@@ -68,7 +68,7 @@ class AnggotaController extends Controller
             $model->save(false);
 
             $berkas->saveAs(Yii::$app->basePath . '/web/user/' . $model->foto);
-            Yii::$app->session->setFlash('success', 'Berhasil menambahkan anggota');
+            Yii::$app->session->setFlash('success', 'Anggota berhasil ditambahkan');
             return $this->redirect(['index', 'id' => $model->id]);
         }
         return $this->render('create', [
@@ -113,7 +113,7 @@ class AnggotaController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('success', 'Data berhasil dihapus');
         return $this->redirect(['index']);
     }
     // ------------------------------------------------------------- //
